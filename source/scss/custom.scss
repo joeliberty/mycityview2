@@ -1,0 +1,481 @@
+$hoverBGColor: #E6F5FA;
+$hoverTextColor: #0099CC;
+
+.navbar {
+  opacity: 0.8;
+}
+
+.navbar-fixed-top {
+  margin-bottom: 0px;
+}
+
+/*.btn-primary {
+  color: #fff;
+  background-color: #222;
+  border-color: #222;
+}
+
+#citybtn {
+  margin-top: 12%;
+}
+
+#citybtn:hover {
+ background-color: #222;
+ border-color: #222;
+}*/
+
+.navbar-inverse .navbar-brand, .navbar-inverse .navbar-nav>li>a {
+  color: #f9f9f9;
+  
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+#header_image {
+  margin-top: 53px;
+  background-color: #ffffff;
+  width: 100%;
+  img{
+    display:none;
+  }
+}
+
+.container {
+  margin-top: 20px;
+}
+
+.page_container h1 {
+  text-align: center;
+}
+
+.carousel-indicators li {
+  position: relative;
+  top: 24px;
+}
+
+.astro_container, .weather_container, .quote_container {
+  text-align: center;
+  font-size: 90%;
+  padding: 3%;
+}
+
+.quote_container div{
+  text-align: center;
+}
+
+.astro_imgs {
+  margin-bottom: 10px;
+  .astro_imgs a {
+    margin-right: 0px;
+  }
+  a:hover {
+    background-color: $hoverBGColor;
+  }
+}
+
+#astro_horoscope i{
+  margin-top: 3%;
+  display: none;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+#copyright {
+  text-align: center;
+  position: relative;
+  width: 100%;
+  background-color: #000000;
+  opacity: 0.8;
+  color: #d3d3d3;
+  -webkit-backface-visibility: hidden;
+  margin-top: 6px;
+  display: none;
+}
+
+.weather_container {
+  text-align: center;
+  img{
+    margin-bottom: -16px;
+    margin-top: -8px;
+  }
+}
+
+#weatherpic {
+  margin-bottom: 24px;
+  img{
+    margin-bottom: -26px;
+    margin-top: -20px;
+  }
+}
+
+.horz_list {
+  li{
+    display: inline-block;
+  }
+  span{
+    cursor: pointer;
+  }
+  span:hover {
+    color: $hoverTextColor;
+  }
+}
+
+/*accordian*/
+.panel-title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.panel-heading {
+  padding: 0px 15px;
+  cursor: pointer;
+  :hover {
+    color: $hoverTextColor;
+    background-color: $hoverBGColor;
+  }
+  a{
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: 600;
+  }
+}
+
+.mname {
+  font-weight: 500;
+}
+
+/* Make accordain header clickable */
+.accordion-toggle { display: block; }
+
+.mycity {
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+}
+
+#header_text {
+  text-align: center;
+  position: relative;
+}
+
+.news_title {
+  font-weight: 500;
+  margin: 0px;
+  padding: 0px;
+}
+
+.news_summary {
+  font-size: 12px;
+  margin: 0px;
+  padding: 0px;
+  font-weight: 400;
+}
+
+.news_url {
+  font-size: 10px;
+  color: blue;
+  text-decoration: underline;
+}
+
+.forcast_container {
+  white-space: nowrap;
+  overflow-x: scroll;
+  margin-right: 4%;
+  li {
+    display: inline-block;
+    margin-left: 4%;
+    font-size: 80%;
+  }
+  img {
+    margin-bottom: -12px;
+  }
+}
+
+.dropdown {
+  margin-top: 6px;
+}
+
+.more, .less {
+  color: $hoverTextColor;
+}
+
+.more:hover, .less:hover {
+  cursor: pointer;
+}
+
+
+
+#forcast_h4 {
+  margin-left: 3%;
+}
+
+.weather_forcast {
+  float: left;
+}
+
+.navbar-nav {
+  margin-top: -5px;
+}
+
+.dropdown-menu {
+  height: 300px;
+  overflow-x: auto;
+  li a {
+    cursor: pointer;
+  }
+}
+
+#map-canvas {
+  height: 400px;
+  margin: 0px;
+  padding: 0px;
+  border: 1px solid #000000;
+}
+
+#map_container {
+  padding-left: 3%;
+  padding-right: 3%;
+  margin-top: 50px;
+}
+
+
+
+.tabs_container {
+  margin-left: 3%;
+  margin-right: 3%;
+  position: relative;
+  clear: both;
+  visibility: hidden;
+}
+
+.tab-content {
+  border-left: 1px solid #cccccc;
+  border-right: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+  padding: 10px;
+  padding-left: 3%;
+  padding-right:3%;
+  position: relative;
+  clear: both;
+  /*box-shadow: 1px 1px 20px #E8E7E7;*/
+}
+
+
+
+.nav-tabs>li>a {
+  cursor: pointer;
+}
+
+.newspanel {
+  height: 250px;
+  overflow-y: scroll;
+  li img {
+    max-width: 200px;
+    max-height: 150px;
+  }
+}
+
+.domain {
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.places_container, .twitter_container, .meetup_container{
+  height: 300px;
+  overflow-y: scroll;
+}
+
+.event_container {
+  img {
+    max-width: 200px;
+  }
+  li a {
+    cursor:pointer;
+  }
+}
+
+
+.mapit{
+  color: #337ab7;
+}
+
+.mapit:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+
+#credits_header {
+  text-align: center;
+  color: #4F4F4F;
+  margin-top: 20px;
+  margin-bottom: 4px;
+}
+
+#owm_credit {
+  font-family: oswald, sans-serif;
+  font-size: 16px;
+  position: relative;
+  top: 4px;
+  color: #4F4F4F;
+  font-weight: bold;
+  letter-spacing: -1px;
+}
+
+#bs_credit, #geonames_credit {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  position: relative;
+  color: #4F4F4F;
+  top: 5px;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.credit_container {
+  li {
+    display: inline-block;
+    white-space: nowrap;
+  }
+  img {
+    height: 20px;
+  }
+}
+
+#faroo_img {
+  height: 26px;
+  margin-left: 16%;
+}
+
+#google {
+  margin-top: 5px;
+  height: 25px
+}
+
+#yelp {
+  height: 34px;
+  position: relative;
+  top: -4px;
+}
+
+#eventfinda {
+  height: 33px;
+  position: relative;
+  top: 2px;
+}
+
+#geonames {
+  margin-top: 3px;
+}
+
+#geonames_credit {
+  top:  7px;
+}
+
+.tw_image img{
+  max-height: 250px;
+  max-width: 60%;
+}
+
+#image_spinner {
+  text-align: center;
+  margin-top: 16%;
+  margin-bottom: 12.25%;
+  i {
+    display:inline-block;
+  }
+}
+
+
+
+.details {
+  display: none;
+}
+
+.active {
+    display: block;
+}
+
+.rotate {
+  -ms-transform: rotate(90deg); /* IE 9 */
+  -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+  transform: rotate(90deg);
+}
+
+
+.meetup_names {
+  font-size: 110%;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.meetup_container img {
+  max-width: 200px;
+}
+
+#event_logos {
+  margin-bottom: 10px;
+}
+
+.rate_container {
+  position: relative;
+  font-size: 90%;
+  li img{
+    margin-left: 9%;
+  }
+  li {
+    display:inline-block;
+    width: 64px;
+  }
+  p {
+    white-space: nowrap;
+  }
+  hr {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+}
+
+.baseflags{
+  float: left;
+}
+
+.vertflags {
+  float:left;
+}
+
+
+
+.pagination {
+  position: relative;
+  bottom: 0px;
+  li a {
+    cursor: pointer;
+  }
+}
+
+.event_spinner, .news_spinner {
+  text-align: center;
+  position: relative;
+  margin-top: 10%;
+}
+
+.nearby_container {
+  li {
+    width: 160px;
+  }
+  .dropdown-menu {
+    width: 260px;
+  }
+}
+
+
+
+#nearby {
+  position: relative;
+  padding-top: 7px;
+}
