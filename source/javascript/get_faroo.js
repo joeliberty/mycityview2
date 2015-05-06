@@ -81,7 +81,7 @@ faroo_app.controller("FarooCtrl", ['$scope', '$rootScope', '$http', 'formatDate'
         $scope.find_news(1, terms[i]);
     }
     $scope.submit = function() {
-            if(this.query == '') {
+            if(this.query === '') {
                 alert('Please type in a search term.');
                 return;
             }
