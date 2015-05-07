@@ -1,0 +1,146 @@
+<div class="row">
+	<div class="logo">
+	<div class="col-xs-12"><img src="images/logos/yelp-2c.jpg" alt="Yelp logo"></div>
+	</div>
+</div>
+<div class="row">
+	<div class="yelp_container">
+		<div class="col-md-3">
+			<div ng-controller="MusicVenueCtrl">
+				<h5 ng-show="yelp_unavailable">Unavailable for {{city}}.</h5>
+				<h4 ng-hide="yelp_unavailable">Hotels</h4>
+				<ul>
+					<li ng-repeat="venue in musicvenues | orderBy:'-rating'">
+						<div>
+							<ul class="horz_list">
+								<li><img ng-src="{{venue.rating_img_url_small}}" /> </li>
+								<li>
+									<span ng-click="select(venue)"> {{venue.name | limitTo:nameLength}}
+										<i ng-class="{rotate: isActive(venue)}" class="fa fa-caret-right"></i>
+									</span>
+								</li>
+							</ul>
+							<div class="details" ng-class="{active: isActive(venue)}">
+							<ul>
+								<li>
+									<a ng-show="venue.image_url" href="{{venue.url}}" target="_blank">
+									<img ng-src="{{venue.image_url}}"/></a>
+								</li>
+								<li ng-show="venue.name">{{venue.name}}</li>
+								<li ng-show="venue.display_phone">{{venue.display_phone}}</li>
+								<li ng-show="venue.location.address">{{venue.location.address | toString}}, {{venue.location.city}}</li>
+								<div>
+									<span ng-controller="SetLatLng" class="mapit" ng-show="venue.location.coordinate" ng-click="set_marker(venue.location.coordinate)"> Map it</span><br/>
+									<a ng-show="venue.url" href="{{venue.url}}" target="_blank">{{venue.name | limitTo:nameLength}}</a>
+								</div>
+								</ul>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class = "col-md-3">
+			<div ng-controller="RestaurantCtrl">
+				<h4 ng-hide="yelp_unavailable">Restaurants</h4>
+				<ul>
+					<li ng-repeat="restaurant in restaurants | orderBy:'-rating'">
+						<div>
+							<ul class="horz_list">
+								<li><img ng-src="{{restaurant.rating_img_url_small}}" /> </li>
+								<li>
+									<span ng-click="select(restaurant)"> {{restaurant.name | limitTo:nameLength}}
+										<i ng-class="{rotate: isActive(restaurant)}" class="fa fa-caret-right"></i>
+									</span>
+								</li>
+								</ul>
+								<div class="details" ng-class="{active: isActive(restaurant)}">
+								<ul>
+								<li>
+									<a ng-show="restaurant.image_url" href="{{restaurant.url}}" target="_blank">
+									<img ng-src="{{restaurant.image_url}}"/></a>
+								</li>
+								<li ng-show="restaurant.name">{{restaurant.name}}</li>
+								<li ng-show="restaurant.display_phone">{{restaurant.display_phone}}</li>
+								<li ng-show="restaurant.location.address">{{restaurant.location.address | toString}}, {{restaurant.location.city}}</li>
+								<div>
+									<span ng-controller="SetLatLng" class="mapit" ng-show="restaurant.location.coordinate" ng-click="set_marker(restaurant.location.coordinate)"> Map it</span><br/>
+									<a ng-show="restaurant.url" href="{{restaurant.url}}" target="_blank">{{restaurant.name | limitTo:nameLength}}</a>
+								</div>
+								</ul>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class = "col-md-3">
+			<div ng-controller="ClubCtrl">
+				<h4 ng-hide="yelp_unavailable">Happy Hour</h4>
+				<ul>
+					<li ng-repeat="club in clubs | orderBy:'-rating'">
+						<div>
+							<ul class="horz_list">
+								<li><img ng-src="{{club.rating_img_url_small}}" /> </li>
+								<li>
+									<span ng-click="select(club)"> {{club.name | limitTo:nameLength}}
+										<i ng-class="{rotate: isActive(club)}" class="fa fa-caret-right"></i>
+									</span>
+								</li>
+							</ul>
+							<div class="details" ng-class="{active: isActive(club)}">
+								<ul>
+									<li>
+										<a ng-show="club.image_url" href="{{club.url}}" target="_blank">
+										<img ng-src="{{club.image_url}}"/></a>
+									</li>
+									<li ng-show="club.name">{{club.name}}</li>
+									<li ng-show="club.display_phone">{{club.display_phone}}</li>
+									<li ng-show="club.location.address">{{club.location.address | toString}}, {{club.location.city}}</li>
+									<div>
+										<span ng-controller="SetLatLng" class="mapit" ng-show="club.location.coordinate" ng-click="set_marker(club.location.coordinate)"> Map it</span><br/>
+										<a ng-show="club.url" href="{{club.url}}" target="_blank">{{club.name | limitTo:nameLength}}</a>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class = "col-md-3">
+			<div ng-controller="GallaryCtrl">
+				<h4 ng-hide="yelp_unavailable">Entertainment</h4>
+				<ul>
+					<li ng-repeat="gallery in galleries | orderBy:'-rating'">
+						<div>
+							<ul class="horz_list">
+								<li><img ng-src="{{gallery.rating_img_url_small}}" /> </li>
+								<li>
+									<span ng-click="select(gallery)"> {{gallery.name | limitTo:nameLength}}
+										<i ng-class="{rotate: isActive(gallery)}" class="fa fa-caret-right"></i>
+									</span>
+								</li>
+							</ul>
+							<div class="details" ng-class="{active: isActive(gallery)}">
+								<ul>
+									<li>
+										<a ng-show="gallery.image_url" href="{{gallery.url}}" target="_blank">
+										<img ng-src="{{gallery.image_url}}"/></a>
+									</li>
+									<li ng-show="gallery.name">{{gallery.name}}</li>
+									<li ng-show="gallery.display_phone">{{gallery.display_phone}}</li>
+									<li ng-show="gallery.location.address">{{gallery.location.address | toString}}, {{gallery.location.city}}</li>
+									<div>
+										<span ng-controller="SetLatLng" class="mapit" ng-show="gallery.location.coordinate" ng-click="set_marker(gallery.location.coordinate)"> Map it</span><br/>
+										<a ng-show="gallery.url" href="{{gallery.url}}" target="_blank">{{gallery.name | limitTo:nameLength}}</a>
+									</div>
+								</ul>
+							</div>
+			      </div>
+			    </li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
