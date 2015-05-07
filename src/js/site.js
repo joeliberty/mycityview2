@@ -82,7 +82,7 @@ Site.controller('GetHeaderImage', ['$scope', '$rootScope', '$http',
     state = $rootScope.state.toLowerCase();
   }
   var country = $rootScope.country.toLowerCase();
-  var path = '../all_images/' + city;
+  var path = '../images/' + city;
   if(state) {
     path += '_' + state;
   }
@@ -129,9 +129,9 @@ Site.config(['$routeProvider',
         controller: 'ShowHomeController',
         resolve:{
           // Wait for promise
-          'MyServiceData':function(MyService){
+          MyServiceData: ['MyService', function(MyService){
           return MyService.promise;
-        }}
+        }]}
       }).
       // when('/ShowAbout', {
       //   templateUrl: 'partials/about.html',

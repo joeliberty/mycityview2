@@ -40,7 +40,7 @@ twitter_app.factory('formatText', function() {
     };
 });
 
-twitter_app.controller("TwitterCtrl", ['$scope', '$rootScope', '$http',
+twitter_app.controller('TwitterCtrl', ['$scope', '$rootScope', '$http',
     function($scope, $rootScope, $http) {
     var city_state_country = '';
     var t_city = $rootScope.city.replace(" ", "%20");
@@ -62,14 +62,16 @@ twitter_app.controller("TwitterCtrl", ['$scope', '$rootScope', '$http',
     }); 
 }]);
 
-twitter_app.filter('addUrls', function ($sce, formatText) {
-  return function (item) {
-    if(item) {
-        item = formatText.add_links(item, 'http');
-        item = formatText.add_links(item, '#');
-        item = formatText.add_links(item, '@');
-        return $sce.trustAsHtml(item);
-    }
-  };
-});
+twitter_app.filter('addUrls', ['$sce', 'formatText',
+    function ($sce, formatText) {
+    return function (item) {
+        if(item) {
+            item = formatText.add_links(item, 'http');
+            item = formatText.add_links(item, '#');
+            item = formatText.add_links(item, '@');
+            return $sce.trustAsHtml(item);
+        }
+    };
+}]);
+
 })();

@@ -71,7 +71,8 @@ weather_app.controller("DayForcastCtrl", ['$scope', '$rootScope', '$http',
     });
 }]);
 
-weather_app.filter('temp', function($filter, $rootScope) {
+weather_app.filter('temp', ['$filter', '$rootScope',
+    function($filter, $rootScope) {
     return function(input, t_array) {
         if(input) {
             // conver from kelvin to celcius
@@ -91,5 +92,5 @@ weather_app.filter('temp', function($filter, $rootScope) {
             return '';
         }
     };
-});
+}]);
 })();

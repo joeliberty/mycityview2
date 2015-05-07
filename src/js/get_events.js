@@ -19,15 +19,15 @@ events_app.factory('formatDate', function() {
     };
 });
 
-events_app.factory('dateSort', function() {
-    return {
-        comparator : function (a,b){
-        if (a.timestamp < b.timestamp) return -1;
-        if (a.timestamp > b.timestamp) return 1;
-        return 0;
-        }
-    };
-});
+// events_app.factory('dateSort', function() {
+//     return {
+//         comparator : function (a,b){
+//         if (a.timestamp < b.timestamp) return -1;
+//         if (a.timestamp > b.timestamp) return 1;
+//         return 0;
+//         }
+//     };
+// });
 
 events_app.controller("EventsCtrl", ['$scope', '$rootScope', '$http', 'formatDate',
     function($scope, $rootScope, $http, formatDate) {
@@ -158,7 +158,7 @@ events_app.directive('hmtext', function () {
             hmfulltext:'='
         },
         templateUrl: 'partials/moreless.html',
-        controller : function($scope){
+        controller : ['$scope', function($scope){
             $scope.toggleValue=function(){
                 if($scope.hmfulltext === true)
                     $scope.hmfulltext=false;
@@ -167,7 +167,7 @@ events_app.directive('hmtext', function () {
                 else
                     $scope.hmfulltext=true;
             };
-        }
+        }]
     };
 });
 
