@@ -73,17 +73,17 @@ gulp.task('watch', function() {
 gulp.task('build-css', function() {
   return gulp.src('src/scss/**/*.scss')
     .pipe(sourcemaps.init())  // Process the original sources
-      .pipe(sass())
+    .pipe(sass())
     .pipe(sourcemaps.write()) // Add the map to modified source.
     .pipe(gulp.dest('build'));
 });
 
 gulp.task('build-js', function() {
   return gulp.src('src/js/**/*.js')
-    .pipe(sourcemaps.init())
-      .pipe(concat('bundle.js'))
+    // .pipe(sourcemaps.init())
+    .pipe(concat('bundle.js'))
       //only uglify if gulp is ran with '--type production'
-      .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop()) 
-    .pipe(sourcemaps.write())
+    .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop()) 
+    // .pipe(sourcemaps.write())
     .pipe(gulp.dest('build/js'));
 });

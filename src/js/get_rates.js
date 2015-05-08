@@ -3,15 +3,6 @@
 
 var rates_app = angular.module('rates_app', ['ui.bootstrap']);
 
-// rates_app.config(['$tooltipProvider', function($tooltipProvider){
-//   $tooltipProvider.setTriggers({
-//     'mouseenter': 'mouseleave',
-//     'click': 'click',
-//     'focus': 'blur',
-//     'hideonclick': 'click'
-//   });
-// }]);
-
 rates_app.controller('RatesCtrl', ['$scope', '$rootScope', '$http',
     function($scope, $rootScope, $http) {
     
@@ -67,23 +58,6 @@ rates_app.controller('RatesCtrl', ['$scope', '$rootScope', '$http',
             }
         }
     };
-
-    /* For mobile devices */
-    if($rootScope.isMobile) {
-        $('.rate_container').on('click', function (e) {
-            $('*[popover]').each(function () {
-                //Only do this for all popovers other than the current one that cause this event
-                if (!($(this).is(e.target) || $(this).has(e.target).length > 0) &&
-                        $(this).siblings('.popover').length !== 0 &&
-                        $(this).siblings('.popover').has(e.target).length === 0) {
-                    //Remove the popover element from the DOM
-                    $(this).siblings('.popover').remove();
-                    //Set the state of the popover in the scope to reflect this
-                    angular.element(this).scope().tt_isOpen = false;
-                }
-            });
-        });
-    }
 
 }]);
 
