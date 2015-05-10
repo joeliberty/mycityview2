@@ -23,9 +23,6 @@ Site.controller('ShowHomeController', ['$scope', '$rootScope', '$location', '$ht
   $rootScope.city_id = (new_city) ? new_city : 'Melbourne';
   $rootScope.state = (new_city) ? $rootScope.locs[new_city].state : '';
   $rootScope.country = (new_city) ? $rootScope.locs[new_city].country : 'au';
-  $rootScope.newsdata = {};
-  $rootScope.newsdata.cat = (new_city) ? $rootScope.locs[new_city].cat : '547';
-  $rootScope.newsdata.subcat = (new_city) ? $rootScope.locs[new_city].subcat : '21594';
   $rootScope.map = null;
 
   /* Create City State County value*/
@@ -67,7 +64,6 @@ Site.controller('ShowHomeController', ['$scope', '$rootScope', '$location', '$ht
  
 Site.controller('GetHeaderImage', ['$scope', '$rootScope', '$http',
   function($scope, $rootScope, $http) {
-  var random_num = Math.floor((Math.random() * 10) + 1);
   var city = $rootScope.city_id.toLowerCase();
   var state;
   if($rootScope.state) {
@@ -78,12 +74,12 @@ Site.controller('GetHeaderImage', ['$scope', '$rootScope', '$http',
   if(state) {
     path += '_' + state;
   }
+  path += '_' + country;
   
   /* 
   *Get list of files that are prepended with city, state, country
   */
-  path += '_' + country;
-  $scope.myInterval = 10000; //Carousel delay
+  $scope.myInterval = 7000; //Carousel delay
   $http({
     url: 'php/get_image_files.php',
     dataType: 'json', 
@@ -93,6 +89,8 @@ Site.controller('GetHeaderImage', ['$scope', '$rootScope', '$http',
     $scope.slides = data;
   }); 
 }]);
+
+
 
 Site.service('MyService', ['$http',
   function($http) {

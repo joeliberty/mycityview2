@@ -126,7 +126,7 @@
         link: function(scope, element, attrs) {
             element.bind('load', function() {
                 $('#image_spinner, #image_spinner i').css('display', 'none');
-                $('#header_image img').css('display', 'block');
+                $('#header_image img').css({'display': 'block', 'margin-top': '53px'});
             });
         }
     };
