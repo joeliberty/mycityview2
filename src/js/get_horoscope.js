@@ -23,7 +23,6 @@ astro_app.controller("AstroCtrl", ['$scope', '$http', '$rootScope',
   $scope.horoscope = 'Choose your sign';
 
   $scope.call = function(sign) {
-    // console.log('sign: ' + sign)
     $scope.horoscope = '';
     $('#astro_horoscope i').css('display', 'inline-block');
     $http({
@@ -34,7 +33,6 @@ astro_app.controller("AstroCtrl", ['$scope', '$http', '$rootScope',
     })
     .success(function(data) {
       $('#astro_horoscope i').css('display', 'none');
-      // console.log('data: ' + data)
       $scope.horoscope = data.horoscope;
     }); 
   };

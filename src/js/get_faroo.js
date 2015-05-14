@@ -9,7 +9,7 @@ faroo_app.controller("FarooCtrl", ['$scope', '$rootScope', '$http', 'formatDate'
         $scope.query = '';
 
     $scope.find_news = function(page, term) {
-        $scope.news_spinner = true;
+        $scope[term + '_spinner'] = true;
         $scope.is_search = false;
         var self = this;
         var query = (term == 'search') ? $scope.query : term;
@@ -29,9 +29,9 @@ faroo_app.controller("FarooCtrl", ['$scope', '$rootScope', '$http', 'formatDate'
             }
         }).success(function(data, status, headers, config) {
             if(data) {
-                $scope.news_spinner = false;
                 $('.newspanel').scrollTop(0,0);
                 var term = String(config.config.term);
+                $scope[term + '_spinner'] = false;
                 var cur_page = String(config.config.page);
                 /* Add currentPage to data for pagination */
                 data.currentPage = cur_page;
@@ -76,10 +76,10 @@ faroo_app.controller("FarooCtrl", ['$scope', '$rootScope', '$http', 'formatDate'
         $scope.find_news(pageNo, type);
     };
 
-    var terms = ['world', 'technology', 'entertainment', 'sports', 'travel', 'music'];
-    for(var i = 0; i < terms.length; i++) {
-        $scope.find_news(1, terms[i]);
-    }
+    $scope.get_article = function (type) {
+        $scope.find_news(1, type);
+    };
+
     $scope.submit = function() {
             if(this.query === '') {
                 alert('Please type in a search term.');

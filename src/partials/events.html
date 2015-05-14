@@ -2,8 +2,12 @@
   <div class="col-md-12">
     <div class="event_container">
       <div ng-controller="EventsCtrl">
-        <accordion>
-          <accordion-group heading="{{catart | capitalize_fist_char}}" ng-show="catart">
+        <p ng-show="loading_events" class="event_spinner">
+          <span>Loading events</span><br/>
+          <i class="fa fa-refresh fa-spin fa-2x"></i>
+        </p>
+        <accordion ng-hide="loading_events">
+          <accordion-group heading="{{catart | capitalize_fist_char}}"  ng-show="catart">
             <div class="newspanel">
               <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
               <span ng-hide="spinner" ng-repeat="event in art">

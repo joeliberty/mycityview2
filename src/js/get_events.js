@@ -31,8 +31,11 @@ events_app.factory('formatDate', function() {
 
 events_app.controller("EventsCtrl", ['$scope', '$rootScope', '$http', 'formatDate',
     function($scope, $rootScope, $http, formatDate) {
-    $scope.categories = [];
-    
+    $rootScope.slidesdone = false;
+    $scope.num_of_categories = 0;
+    $scope.cats_returned = 0;
+    $scope.loading_events = true;
+
     $scope.find_events = function(page_num, category) {
         $scope.spinner = true;
         var self = this;
@@ -69,6 +72,10 @@ events_app.controller("EventsCtrl", ['$scope', '$rootScope', '$http', 'formatDat
                 category: category
             }
         }).success(function(data, status, headers, config) {
+            $scope.cats_returned += 1;
+            if($scope.cats_returned >= $scope.num_of_categories) {
+                $scope.loading_events = false;
+            }
             if(data.events) {
                 $scope.spinner = false;
                 var results;
@@ -99,7 +106,6 @@ events_app.controller("EventsCtrl", ['$scope', '$rootScope', '$http', 'formatDat
                 var type = String(config.config.category);
                 var catname = 'cat'+type;
                 $scope[catname] = type;
-
                 $scope[type+'totalItems'] = data.total_items;
                 $scope[type+'currentPage'] = data.page_number;
                 $scope[type+'numOfPages'] = data.page_count;
@@ -138,10 +144,21 @@ events_app.controller("EventsCtrl", ['$scope', '$rootScope', '$http', 'formatDat
 
     };
 
-    var cats = ['attractions', 'art', 'business','clubs_associations', 'comedy', 'community', 'family_fun_kids', 'festivals_parades', 'fundraisers', 'learning_education', 'movies_film', 'music', 'outdoors_recreation', 'performing_arts', 'politics_activism', 'sales', 'singles_social', 'sports', 'support', 'technology'];
-    for( var v = 0; v < cats.length; v++) {
-        $scope.find_events(1, cats[v]);
-    }
+    $rootScope.$watch('slidesdone', function() {
+        if($rootScope.slidesdone) {
+            setTimeout(function(){
+                $scope.find_categories();
+              }, 500);
+        };
+    });
+
+    $scope.find_categories = function() {
+        var cats = ['attractions', 'art', 'business','clubs_associations', 'comedy', 'community', 'family_fun_kids', 'festivals_parades', 'fundraisers', 'learning_education', 'movies_film', 'music', 'outdoors_recreation', 'performing_arts', 'politics_activism', 'sales', 'singles_social', 'sports', 'support', 'technology'];
+        $scope.num_of_categories = cats.length;
+        for( var v = 0; v < cats.length; v++) {
+            $scope.find_events(1, cats[v]);
+        }
+    };
 
     $scope.setPage = function (pageNo, type) {
         $scope.find_events(pageNo, type);

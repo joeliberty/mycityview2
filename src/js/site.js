@@ -87,6 +87,7 @@ Site.controller('GetHeaderImage', ['$scope', '$rootScope', '$http',
     params: {filename: path}
   }).success(function(data) {
     $scope.slides = data;
+    $rootScope.slidesdone = true;
   }); 
 }]);
 

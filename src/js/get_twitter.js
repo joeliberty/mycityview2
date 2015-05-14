@@ -42,23 +42,32 @@ twitter_app.factory('formatText', function() {
 
 twitter_app.controller('TwitterCtrl', ['$scope', '$rootScope', '$http',
     function($scope, $rootScope, $http) {
-    var city_state_country = '';
-    var t_city = $rootScope.city.replace(" ", "%20");
-    if($rootScope.state) {
-        city_state_country = '%23' + t_city +'%20'+ $rootScope.state;
-    } else {
-        city_state_country = '%23' + t_city +'%20'+$rootScope.country;
-    }
-    $('#twitter_spinner i').css('display', 'inline-block');
-    $http({
-        url: 'php/get_twitter.php',
-        dataType: 'json',
-        params: {q: city_state_country},
-        method: "GET"
-        
-    }).success(function(data) {
-        $('#twitter_spinner i').css('display', 'none');
-        $scope.tweets = data;
+    $scope.load_twitter = function() {
+        var city_state_country = '';
+        var t_city = $rootScope.city.replace(" ", "%20");
+        if($rootScope.state) {
+            city_state_country = '%23' + t_city +'%20'+ $rootScope.state;
+        } else {
+            city_state_country = '%23' + t_city +'%20'+$rootScope.country;
+        }
+        $('#twitter_spinner i').css('display', 'inline-block');
+        $http({
+            url: 'php/get_twitter.php',
+            dataType: 'json',
+            params: {q: city_state_country},
+            method: "GET"
+        }).success(function(data) {
+            $('#twitter_spinner i').css('display', 'none');
+            $scope.tweets = data;
+        });
+    };
+
+    $rootScope.$watch('slidesdone', function() {
+        if($rootScope.slidesdone) {
+            setTimeout(function(){
+                $scope.load_twitter();
+            }, 500);
+        };
     }); 
 }]);
 

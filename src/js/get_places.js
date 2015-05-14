@@ -4,30 +4,40 @@ var places_app = angular.module('places_app', []);
 
 places_app.controller("PlacesCtrl", ['$scope', '$http', '$rootScope', '$q',
   function($scope, $http, $rootScope, $q) {
-  var t_city = $rootScope.city_id;
-  var city_data = $rootScope.locs;
-  var pyrmont = new google.maps.LatLng(city_data[t_city].lat,city_data[t_city].lon);
-  var request = {
-    location: pyrmont,
-    radius: 500,
-    types: ['amusement_park','aquarium','art_gallery','casino','gym','library', 'movie_theater', 'museum','night_club','park','shopping_mall','spa','stadium','train_station','zoo']
-  };
-  var service = new google.maps.places.PlacesService($('#for_places').get(0));
-  service.nearbySearch(request, callback);
+  $scope.load_places = function() {
+    var t_city = $rootScope.city_id;
+    var city_data = $rootScope.locs;
+    var pyrmont = new google.maps.LatLng(city_data[t_city].lat,city_data[t_city].lon);
+    var request = {
+      location: pyrmont,
+      radius: 500,
+      types: ['amusement_park','aquarium','art_gallery','casino','gym','library', 'movie_theater', 'museum','night_club','park','shopping_mall','spa','stadium','train_station','zoo']
+    };
+    var service = new google.maps.places.PlacesService($('#for_places').get(0));
+    service.nearbySearch(request, callback);
 
-  function callback(results, status, pagination) {
-    if (status != google.maps.places.PlacesServiceStatus.OK) {
-      return;
-    } else {
-      var places_service = new google.maps.places.PlacesService($('#for_places').get(0));
+    function callback(results, status, pagination) {
+      if (status != google.maps.places.PlacesServiceStatus.OK) {
+        return;
+      } else {
+        var places_service = new google.maps.places.PlacesService($('#for_places').get(0));
 
-      /* Slow request to 1 every sec */
-      $scope.places = [];
-      for (var i = 0; i < results.length; i++) {
-        get_details_per_sec(i, results, places_service);
+        /* Slow request to 1 every sec */
+        $scope.places = [];
+        for (var i = 0; i < results.length; i++) {
+          get_details_per_sec(i, results, places_service);
+        }
       }
     }
-  }
+  };
+
+  $rootScope.$watch('slidesdone', function() {
+        if($rootScope.slidesdone) {
+            setTimeout(function(){
+                $scope.load_places();
+            }, 500);
+        };
+    });
 
   var get_details_per_sec = function(i, results, places_service) {
     /* Send request for details per sec so not to exceed
