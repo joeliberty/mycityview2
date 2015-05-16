@@ -36,7 +36,7 @@ places_app.controller("PlacesCtrl", ['$scope', '$http', '$rootScope', '$q',
             setTimeout(function(){
                 $scope.load_places();
             }, 500);
-        };
+        }
     });
 
   var get_details_per_sec = function(i, results, places_service) {

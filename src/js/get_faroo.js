@@ -81,13 +81,13 @@ faroo_app.controller("FarooCtrl", ['$scope', '$rootScope', '$http', 'formatDate'
     };
 
     $scope.submit = function() {
-            if(this.query === '') {
-                alert('Please type in a search term.');
-                return;
-            }
-            $scope.query = this.query.replace(/ /g, '%20');
-            $scope.find_news(1, 'search');
-      };
+        if(this.query === '') {
+            alert('Please type in a search term.');
+            return;
+        }
+        $scope.query = this.query.replace(/ /g, '%20');
+        $scope.find_news(1, 'search');
+    };
 }]);
 
 faroo_app.directive('farootopic', function () {

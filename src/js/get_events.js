@@ -35,56 +35,71 @@ events_app.controller("EventsCtrl", ['$scope', '$rootScope', '$http', 'formatDat
     $scope.num_of_categories = 0;
     $scope.cats_returned = 0;
     $scope.loading_events = true;
+    $scope.is_search = false;
+    $scope.query = '';
 
-    $scope.find_events = function(page_num, category) {
-        $scope.spinner = true;
+    $scope.find_events = function(page_num, category, count_only) {
+        var term = category;
+        $scope[category + '_spinner'] = true;
         var self = this;
-        var t_city = $rootScope.city;
-        var today = new Date();
-        today = formatDate.yyyy_mm_dd(today);
-        today = today.replace(/-/g, '')+'00';
-        var date = today + '-' + today;
-        var page_size = '10';
-
         $scope.events = { events: {title:'Retreiving events for ' + $rootScope.city + '.'}};
+
+        var params = {};
+        params.page_number = page_num;
+        params.count_only = count_only;
+        var keywords = (category == 'search') ? $scope.query : '';
+        if(keywords) {
+            params.keywords = keywords;
+            params.sort_order = 'date';
+        }
+        category = (category == 'search') ? '' : category;
+        if(category) {
+            params.category = category;
+            params.sort_order = 'popularity';
+        }
+        var date;
+        if(!category) {
+            date = 'Future';
+        } else {
+            var today = new Date();
+            today = formatDate.yyyy_mm_dd(today);
+            today = today.replace(/-/g, '')+'00';
+            date = today + '-' + today;
+        }
+        params.date = date;
+        params.page_size = '10';
+
+        var t_city = $rootScope.city;
         var city_state_country = '';
         if($rootScope.state) {
             city_state_country = t_city +','+ $rootScope.state+','+$rootScope.country;
         } else {
             city_state_country = t_city +','+$rootScope.country;
         }
-
+        params.location = city_state_country;
         var url = 'php/get_event.php';
         $http({
             url: url,
             dataType: 'json',
             method: 'GET',
             cache: true,
-            params: {
-                location: city_state_country,
-                date: date,
-                category: category,
-                page_size: page_size,
-                sort_order: 'popularity',
-                page_number: page_num
-            },
+            params: params,
             config: {
-                category: category
+                category: term
             }
         }).success(function(data, status, headers, config) {
             $scope.cats_returned += 1;
             if($scope.cats_returned >= $scope.num_of_categories) {
                 $scope.loading_events = false;
             }
+            var arr = [];
             if(data.events) {
-                $scope.spinner = false;
                 var results;
                 if(data.events.event.length) {
                     results = $scope.events = data.events.event;
                 } else {
                     results = data.events;
                 }
-                var arr = [];
                 $.each(results, function (i, item) {
                     var event = {};
                     event.image = (item.image !== null) ? item.image.medium.url : '';
@@ -102,20 +117,25 @@ events_app.controller("EventsCtrl", ['$scope', '$rootScope', '$http', 'formatDat
                     arr.push(event);
                 });
                 $('.newspanel').scrollTop(0,0);
-
+            }
+            /* Add accordion headings here */
+            if(data.total_items != 0) {
                 var type = String(config.config.category);
                 var catname = 'cat'+type;
                 $scope[catname] = type;
                 $scope[type+'totalItems'] = data.total_items;
                 $scope[type+'currentPage'] = data.page_number;
                 $scope[type+'numOfPages'] = data.page_count;
-                $scope[type+'itemsPerPage'] = page_size;
+                $scope[type+'itemsPerPage'] = data.page_size;
                 var pagerState = (parseInt($scope[type+'totalItems']) <= parseInt($scope[type+'itemsPerPage'])) ? 'none' : 'block';
                 $('#'+catname).css('display', pagerState);
 
-                $scope[type] = arr;
+                if(arr.length) {
+                    $scope[type] = arr;
+                    $scope[type + '_spinner'] = false;
+                 }
+             }
 
-            }
             // console.log('totalItems: ', $scope[type+'totalItems'] + ' currentPage: ', $scope[type+'currentPage'] + ' numOfPages: ' , $scope[type+'numOfPages'] + ' itemsPerPage: ', $scope[type+'itemsPerPage'])
         }); 
 
@@ -149,15 +169,30 @@ events_app.controller("EventsCtrl", ['$scope', '$rootScope', '$http', 'formatDat
             setTimeout(function(){
                 $scope.find_categories();
               }, 500);
-        };
+        }
     });
 
     $scope.find_categories = function() {
         var cats = ['attractions', 'art', 'business','clubs_associations', 'comedy', 'community', 'family_fun_kids', 'festivals_parades', 'fundraisers', 'learning_education', 'movies_film', 'music', 'outdoors_recreation', 'performing_arts', 'politics_activism', 'sales', 'singles_social', 'sports', 'support', 'technology'];
         $scope.num_of_categories = cats.length;
         for( var v = 0; v < cats.length; v++) {
-            $scope.find_events(1, cats[v]);
+            $scope.find_events(1, cats[v], 1);
         }
+    };
+
+    $scope.submit = function() {
+        if(this.query === '') {
+            alert('Please type in a search term.');
+            return;
+        }
+        $scope.query = this.query.replace(/ /g, '%20');
+        $scope.find_events(1, 'search', 0);
+    };
+
+    // Get single set of events e.g. music
+    $scope.get_event = function (type) {
+        // Page, whichevent, count_only
+        $scope.find_events(1, type, 0);
     };
 
     $scope.setPage = function (pageNo, type) {

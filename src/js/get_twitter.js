@@ -67,7 +67,7 @@ twitter_app.controller('TwitterCtrl', ['$scope', '$rootScope', '$http',
             setTimeout(function(){
                 $scope.load_twitter();
             }, 500);
-        };
+        }
     }); 
 }]);
 

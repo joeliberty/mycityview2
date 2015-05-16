@@ -7,10 +7,17 @@
           <i class="fa fa-refresh fa-spin fa-2x"></i>
         </p>
         <accordion ng-hide="loading_events">
-          <accordion-group heading="{{catart | capitalize_fist_char}}"  ng-show="catart">
+
+          <accordion-group heading="Search">
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <span ng-hide="spinner" ng-repeat="event in art">
+              <p class="input-group">
+                <form ng-submit="submit()" >
+                  <input type="query" ng-model="query" name="query" />
+                  <input class="btn btn-default" type="submit" id="submit" value="Submit" />
+                </form>
+              </p>
+              <p ng-show="search_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <span ng-hide="search_spinner" ng-repeat="event in search">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -21,14 +28,39 @@
                   </eventb>
                 </ul>
               </span>
-              <pagination ng-hide="spinner" id="catart" page="artcurrentPage" total-items="arttotalItems" items-per-page="artitemsPerPage" on-select-page="setPage(page, 'art')"></pagination>
+              <pagination ng-hide="search_spinner" id="catsearch" page="searchcurrentPage" total-items="searchtotalItems" items-per-page="searchitemsPerPage" on-select-page="setPage(page, 'search')"></pagination>
             </div>
           </accordion-group>
 
-          <accordion-group heading="{{catattractions | capitalize_fist_char}}" ng-show="catattractions">
+          <accordion-group ng-show="catart">
+            <accordion-heading>
+              <div ng-click="get_event('art')">{{catart | capitalize_fist_char}}</div>
+            </accordion-heading>
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <div ng-hide="spinner" ng-repeat="event in attractions">
+              <p ng-show="art_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <span ng-hide="art_spinner" ng-repeat="event in art">
+                <ul>
+                  <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
+                  </eventa>
+
+                  <li ng-show="event.description" hmtext="event.description" hmlimit="150" hmfulltext="true"></li>
+
+                  <eventb geocode="event.geocode_type" latitude="event.latitude" longitude="event.longitude" url="event.url">
+                  </eventb>
+                </ul>
+              </span>
+              <pagination ng-hide="art_spinner" id="catart" page="artcurrentPage" total-items="arttotalItems" items-per-page="artitemsPerPage" on-select-page="setPage(page, 'art')"></pagination>
+            </div>
+          </accordion-group>
+
+          <!-- <accordion-group heading="{{catattractions | capitalize_fist_char}}" ng-show="catattractions"> -->
+          <accordion-group ng-show="catattractions">
+            <accordion-heading>
+              <div ng-click="get_event('attractions')">{{catattractions | capitalize_fist_char}}</div>
+            </accordion-heading>
+            <div class="newspanel">
+              <p ng-show="attractions_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <div ng-hide="attractions_spinner" ng-repeat="event in attractions">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -39,14 +71,18 @@
                   </eventb>
                 </ul>
               </div>
-              <pagination ng-hide="spinner" id="catattractions" page="attractionscurrentPage" total-items="attractionstotalItems" items-per-page="attractionsitemsPerPage" on-select-page="setPage(page, 'attractions')"></pagination>
+              <pagination ng-hide="attractions_spinner" id="catattractions" page="attractionscurrentPage" total-items="attractionstotalItems" items-per-page="attractionsitemsPerPage" on-select-page="setPage(page, 'attractions')"></pagination>
             </div>
           </accordion-group>
 
-          <accordion-group heading="{{catbusiness | capitalize_fist_char}}" ng-show="catbusiness">
+          <!-- <accordion-group heading="{{catbusiness | capitalize_fist_char}}" ng-show="catbusiness"> -->
+          <accordion-group ng-show="catbusiness">
+            <accordion-heading>
+              <div ng-click="get_event('business')">{{catbusiness | capitalize_fist_char}}</div>
+            </accordion-heading>
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <div ng-hide="spinner" ng-repeat="event in business">
+              <p ng-show="business_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <div ng-hide="business_spinner" ng-repeat="event in business">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -57,14 +93,18 @@
                   </eventb>
                 </ul>
               </div>
-              <pagination ng-hide="spinner" id="catbusiness" page="businesscurrentPage" total-items="businesstotalItems" items-per-page="businessitemsPerPage" on-select-page="setPage(page, 'business')"></pagination>
+              <pagination ng-hide="business_spinner" id="catbusiness" page="businesscurrentPage" total-items="businesstotalItems" items-per-page="businessitemsPerPage" on-select-page="setPage(page, 'business')"></pagination>
             </div>
           </accordion-group>
 
-          <accordion-group heading="{{catbooks | capitalize_fist_char}}" ng-show="catbooks">
+          <!-- <accordion-group heading="{{catbooks | capitalize_fist_char}}" ng-show="catbooks"> -->
+          <accordion-group ng-show="catbooks">
+            <accordion-heading>
+              <div ng-click="get_event('books')">{{catbooks | capitalize_fist_char}}</div>
+            </accordion-heading>
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <div ng-hide="spinner" ng-repeat="event in books">
+              <p ng-show="books_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <div ng-hide="books_spinner" ng-repeat="event in books">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -75,14 +115,18 @@
                   </eventb>
                 </ul>
               </div>
-              <pagination ng-hide="spinner" id="catbooks" page="bookscurrentPage" total-items="bookstotalItems" items-per-page="booksitemsPerPage" on-select-page="setPage(page, 'books')"></pagination>
+              <pagination ng-hide="books_spinner" id="catbooks" page="bookscurrentPage" total-items="bookstotalItems" items-per-page="booksitemsPerPage" on-select-page="setPage(page, 'books')"></pagination>
             </div>
           </accordion-group>
 
-          <accordion-group heading="{{catclubs_associations | capitalize_fist_char}}" ng-show="catclubs_associations">
+          <!-- <accordion-group heading="{{catclubs_associations | capitalize_fist_char}}" ng-show="catclubs_associations"> -->
+            <accordion-group ng-show="catclubs_associations">
+            <accordion-heading>
+              <div ng-click="get_event('clubs_associations')">{{catclubs_associations | capitalize_fist_char}}</div>
+            </accordion-heading>
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <div ng-hide="spinner" ng-repeat="event in clubs_associations">
+              <p ng-show="clubs_associations_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <div ng-hide="clubs_associations_spinner" ng-repeat="event in clubs_associations">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -93,14 +137,18 @@
                   </eventb>
                 </ul>
               </div>
-              <pagination ng-hide="spinner" id="catclubs_associations" page="clubs_associationscurrentPage" total-items="clubs_associationstotalItems" items-per-page="clubs_associationsitemsPerPage" on-select-page="setPage(page, 'clubs_associations')"></pagination>
+              <pagination ng-hide="clubs_associations_spinner" id="catclubs_associations" page="clubs_associationscurrentPage" total-items="clubs_associationstotalItems" items-per-page="clubs_associationsitemsPerPage" on-select-page="setPage(page, 'clubs_associations')"></pagination>
             </div>
           </accordion-group>
 
-          <accordion-group heading="{{catcomedy | capitalize_fist_char}}" ng-show="catcomedy">
+          <!-- <accordion-group heading="{{catcomedy | capitalize_fist_char}}" ng-show="catcomedy"> -->
+          <accordion-group ng-show="catcomedy">
+            <accordion-heading>
+              <div ng-click="get_event('comedy')">{{catcomedy | capitalize_fist_char}}</div>
+            </accordion-heading>
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <div ng-hide="spinner" ng-repeat="event in comedy">
+              <p ng-show="comedy_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <div ng-hide="comedy_spinner" ng-repeat="event in comedy">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -111,14 +159,18 @@
                   </eventb>
                 </ul>
               </div>
-              <pagination ng-hide="spinner" id="catcomedy" page="comedycurrentPage" total-items="comedytotalItems" items-per-page="comedyitemsPerPage" on-select-page="setPage(page, 'comedy')"></pagination>
+              <pagination ng-hide="comedy_spinner" id="catcomedy" page="comedycurrentPage" total-items="comedytotalItems" items-per-page="comedyitemsPerPage" on-select-page="setPage(page, 'comedy')"></pagination>
             </div>
           </accordion-group>
 
-          <accordion-group heading="{{catcommunity | capitalize_fist_char}}" ng-show="catcommunity">
+          <!-- <accordion-group heading="{{catcommunity | capitalize_fist_char}}" ng-show="catcommunity"> -->
+          <accordion-group ng-show="catcommunity">
+            <accordion-heading>
+              <div ng-click="get_event('community')">{{catcommunity | capitalize_fist_char}}</div>
+            </accordion-heading>
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <div ng-hide="spinner" ng-repeat="event in community">
+              <p ng-show="community_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <div ng-hide="community_spinner" ng-repeat="event in community">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -129,14 +181,18 @@
                   </eventb>
                 </ul>
               </div>
-              <pagination ng-hide="spinner" id="catcommunity" page="communitycurrentPage" total-items="communitytotalItems" items-per-page="communityitemsPerPage" on-select-page="setPage(page, 'community')"></pagination>
+              <pagination ng-hide="community_spinner" id="catcommunity" page="communitycurrentPage" total-items="communitytotalItems" items-per-page="communityitemsPerPage" on-select-page="setPage(page, 'community')"></pagination>
             </div>
           </accordion-group>
 
-          <accordion-group heading="{{catfamily_fun_kids | capitalize_fist_char}}" ng-show="catfamily_fun_kids">
+          <!-- <accordion-group heading="{{catfamily_fun_kids | capitalize_fist_char}}" ng-show="catfamily_fun_kids"> -->
+          <accordion-group ng-show="catfamily_fun_kids">
+            <accordion-heading>
+              <div ng-click="get_event('family_fun_kids')">{{catfamily_fun_kids | capitalize_fist_char}}</div>
+            </accordion-heading>
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <div ng-hide="spinner" ng-repeat="event in family_fun_kids">
+              <p ng-show="family_fun_kids_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <div ng-hide="family_fun_kids_spinner" ng-repeat="event in family_fun_kids">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -147,14 +203,18 @@
                   </eventb>
                 </ul>
               </div>
-              <pagination ng-hide="spinner" id="catfamily_fun_kids" page="family_fun_kidscurrentPage" total-items="family_fun_kidstotalItems" items-per-page="family_fun_kidsitemsPerPage" on-select-page="setPage(page, 'family_fun_kids')"></pagination>
+              <pagination ng-hide="family_fun_kids_spinner" id="catfamily_fun_kids" page="family_fun_kidscurrentPage" total-items="family_fun_kidstotalItems" items-per-page="family_fun_kidsitemsPerPage" on-select-page="setPage(page, 'family_fun_kids')"></pagination>
             </div>
           </accordion-group>
 
-          <accordion-group heading="{{catfestivals_parades | capitalize_fist_char}}" ng-show="catfestivals_parades">
+          <!-- <accordion-group heading="{{catfestivals_parades | capitalize_fist_char}}" ng-show="catfestivals_parades"> -->
+          <accordion-group ng-show="catfestivals_parades">
+            <accordion-heading>
+              <div ng-click="get_event('festivals_parades')">{{catfestivals_parades | capitalize_fist_char}}</div>
+            </accordion-heading>
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <div ng-hide="spinner" ng-repeat="event in festivals_parades">
+              <p ng-show="festivals_parades_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <div ng-hide="festivals_parades_spinner" ng-repeat="event in festivals_parades">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -165,14 +225,18 @@
                   </eventb>
                 </ul>
               </div>
-              <pagination ng-hide="spinner" id="catfestivals_parades" page="festivals_paradescurrentPage" total-items="festivals_paradestotalItems" items-per-page="festivals_paradesitemsPerPage" on-select-page="setPage(page, 'festivals_parades')"></pagination>
+              <pagination ng-hide="festivals_parades_spinner" id="catfestivals_parades" page="festivals_paradescurrentPage" total-items="festivals_paradestotalItems" items-per-page="festivals_paradesitemsPerPage" on-select-page="setPage(page, 'festivals_parades')"></pagination>
             </div>
           </accordion-group>
 
-          <accordion-group heading="{{catfundraisers | capitalize_fist_char}}" ng-show="catfundraisers">
+          <!-- <accordion-group heading="{{catfundraisers | capitalize_fist_char}}" ng-show="catfundraisers"> -->
+          <accordion-group ng-show="catfundraisers">
+            <accordion-heading>
+              <div ng-click="get_event('fundraisers')">{{catfundraisers | capitalize_fist_char}}</div>
+            </accordion-heading>
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <div ng-hide="spinner" ng-repeat="event in fundraisers">
+              <p ng-show="fundraisers_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <div ng-hide="fundraisers_spinner" ng-repeat="event in fundraisers">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -183,14 +247,18 @@
                   </eventb>
                 </ul>
               </div>
-              <pagination ng-hide="spinner" id="catfundraisers" page="fundraiserscurrentPage" total-items="fundraiserstotalItems" items-per-page="fundraisersitemsPerPage" on-select-page="setPage(page, 'fundraisers')"></pagination>
+              <pagination ng-hide="fundraisers_spinner" id="catfundraisers" page="fundraiserscurrentPage" total-items="fundraiserstotalItems" items-per-page="fundraisersitemsPerPage" on-select-page="setPage(page, 'fundraisers')"></pagination>
             </div>
           </accordion-group>
 
-          <accordion-group heading="{{catlearning_education | capitalize_fist_char}}" ng-show="catlearning_education">
+          <!-- <accordion-group heading="{{catlearning_education | capitalize_fist_char}}" ng-show="catlearning_education"> -->
+          <accordion-group ng-show="catlearning_education">
+            <accordion-heading>
+              <div ng-click="get_event('learning_education')">{{catlearning_education | capitalize_fist_char}}</div>
+            </accordion-heading>
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <div ng-hide="spinner" ng-repeat="event in learning_education">
+              <p ng-show="learning_education_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <div ng-hide="learning_education_spinner" ng-repeat="event in learning_education">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -201,14 +269,18 @@
                   </eventb>
                 </ul>
               </div>
-              <pagination ng-hide="spinner" id="catlearning_education" page="learning_educationcurrentPage" total-items="learning_educationtotalItems" items-per-page="learning_educationitemsPerPage" on-select-page="setPage(page, 'learning_education')"></pagination>
+              <pagination ng-hide="learning_education_spinner" id="catlearning_education" page="learning_educationcurrentPage" total-items="learning_educationtotalItems" items-per-page="learning_educationitemsPerPage" on-select-page="setPage(page, 'learning_education')"></pagination>
             </div>
           </accordion-group>
 
-          <accordion-group heading="{{catmovies_film | capitalize_fist_char}}" ng-show="catmovies_film">
+          <!-- <accordion-group heading="{{catmovies_film | capitalize_fist_char}}" ng-show="catmovies_film"> -->
+          <accordion-group ng-show="catmovies_film">
+            <accordion-heading>
+              <div ng-click="get_event('movies_film')">{{catmovies_film | capitalize_fist_char}}</div>
+            </accordion-heading>
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <div ng-hide="spinner" ng-repeat="event in movies_film">
+              <p ng-show="movies_film_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <div ng-hide="movies_film_spinner" ng-repeat="event in movies_film">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -219,14 +291,18 @@
                   </eventb>
                 </ul>
               </div>
-              <pagination ng-hide="spinner" id="catmovies_film" page="movies_filmcurrentPage" total-items="movies_filmtotalItems" items-per-page="movies_filmitemsPerPage" on-select-page="setPage(page, 'movies_film')"></pagination>
+              <pagination ng-hide="movies_film_spinner" id="catmovies_film" page="movies_filmcurrentPage" total-items="movies_filmtotalItems" items-per-page="movies_filmitemsPerPage" on-select-page="setPage(page, 'movies_film')"></pagination>
             </div>
           </accordion-group>
 
-          <accordion-group heading="{{catmusic | capitalize_fist_char}}" ng-show="catmusic">
+          <!-- <accordion-group heading="{{catmusic | capitalize_fist_char}}" ng-show="catmusic"> -->
+          <accordion-group ng-show="catmusic">
+            <accordion-heading>
+              <div ng-click="get_event('music')">{{catmusic | capitalize_fist_char}}</div>
+            </accordion-heading>
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <div ng-hide="spinner" ng-repeat="event in music">
+              <p ng-show="music_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <div ng-hide="music_spinner" ng-repeat="event in music">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -237,14 +313,18 @@
                   </eventb>
                 </ul>
               </div>
-              <pagination ng-hide="spinner" id="catmusic" page="musiccurrentPage" total-items="musictotalItems" items-per-page="musicitemsPerPage" on-select-page="setPage(page, 'music')"></pagination>
+              <pagination ng-hide="music_spinner" id="catmusic" page="musiccurrentPage" total-items="musictotalItems" items-per-page="musicitemsPerPage" on-select-page="setPage(page, 'music')"></pagination>
             </div>
           </accordion-group>
 
-          <accordion-group heading="{{catoutdoors_recreation | capitalize_fist_char}}" ng-show="catoutdoors_recreation">
+          <!-- <accordion-group heading="{{catoutdoors_recreation | capitalize_fist_char}}" ng-show="catoutdoors_recreation"> -->
+          <accordion-group ng-show="catoutdoors_recreation">
+            <accordion-heading>
+              <div ng-click="get_event('outdoors_recreation')">{{catoutdoors_recreation | capitalize_fist_char}}</div>
+            </accordion-heading>
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <div ng-hide="spinner" ng-repeat="event in outdoors_recreation">
+              <p ng-show="outdoors_recreation_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <div ng-hide="outdoors_recreation_spinner" ng-repeat="event in outdoors_recreation">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -255,14 +335,19 @@
                   </eventb>
                 </ul>
               </div>
-              <pagination ng-hide="spinner" id="catoutdoors_recreation" page="outdoors_recreationcurrentPage" total-items="outdoors_recreationtotalItems" items-per-page="outdoors_recreationitemsPerPage" on-select-page="setPage(page, 'outdoors_recreation')"></pagination>
+              <pagination ng-hide="outdoors_recreation_spinner" id="catoutdoors_recreation" page="outdoors_recreationcurrentPage" total-items="outdoors_recreationtotalItems" items-per-page="outdoors_recreationitemsPerPage" on-select-page="setPage(page, 'outdoors_recreation')"></pagination>
             </div>
           </accordion-group>
 
-          <accordion-group heading="{{catperforming_arts | capitalize_fist_char}}" ng-show="catperforming_arts">
+          <!-- <accordion-group heading="{{catperforming_arts | capitalize_fist_char}}" ng-show="catperforming_arts"> -->
+          <accordion-group ng-show="catperforming_arts">
+            <accordion-heading>
+              <div ng-click="get_event('performing_arts')">{{catperforming_arts | capitalize_fist_char}}</div>
+            </accordion-heading>
+
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <div ng-hide="spinner" ng-repeat="event in performing_arts">
+              <p ng-show="performing_arts_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <div ng-hide="performing_arts_spinner" ng-repeat="event in performing_arts">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -273,14 +358,18 @@
                   </eventb>
                 </ul>
               </div>
-              <pagination ng-hide="spinner" id="catperforming_arts" page="performing_artscurrentPage" total-items="performing_artstotalItems" items-per-page="performing_artsitemsPerPage" on-select-page="setPage(page, 'performing_arts')"></pagination>
+              <pagination ng-hide="performing_arts_spinner" id="catperforming_arts" page="performing_artscurrentPage" total-items="performing_artstotalItems" items-per-page="performing_artsitemsPerPage" on-select-page="setPage(page, 'performing_arts')"></pagination>
             </div>
           </accordion-group>
 
-          <accordion-group heading="{{catpolitics_activism | capitalize_fist_char}}" ng-show="catpolitics_activism">
+          <!-- <accordion-group heading="{{catpolitics_activism | capitalize_fist_char}}" ng-show="catpolitics_activism"> -->
+          <accordion-group ng-show="catpolitics_activism">
+            <accordion-heading>
+              <div ng-click="get_event('politics_activism')">{{catpolitics_activism | capitalize_fist_char}}</div>
+            </accordion-heading>
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <div ng-hide="spinner" ng-repeat="event in politics_activism">
+              <p ng-show="politics_activism_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <div ng-hide="politics_activism_spinner" ng-repeat="event in politics_activism">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -291,14 +380,18 @@
                   </eventb>
                 </ul>
               </div>
-              <pagination ng-hide="spinner" id="catpolitics_activism" page="politics_activismcurrentPage" total-items="politics_activismtotalItems" items-per-page="politics_activismitemsPerPage" on-select-page="setPage(page, 'politics_activism')"></pagination>
+              <pagination ng-hide="politics_activism_spinner" id="catpolitics_activism" page="politics_activismcurrentPage" total-items="politics_activismtotalItems" items-per-page="politics_activismitemsPerPage" on-select-page="setPage(page, 'politics_activism')"></pagination>
             </div>
           </accordion-group>
 
-          <accordion-group heading="{{catsales | capitalize_fist_char}}" ng-show="catsales">
+          <!-- <accordion-group heading="{{catsales | capitalize_fist_char}}" ng-show="catsales"> -->
+          <accordion-group ng-show="catsales">
+            <accordion-heading>
+              <div ng-click="get_event('sales')">{{catsales | capitalize_fist_char}}</div>
+            </accordion-heading>
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <div ng-hide="spinner" ng-repeat="event in sales">
+              <p ng-show="sales_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <div ng-hide="sales_spinner" ng-repeat="event in sales">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -309,14 +402,18 @@
                   </eventb>
                 </ul>
               </div>
-              <pagination ng-hide="spinner" id="catsales" page="salescurrentPage" total-items="salestotalItems" items-per-page="salesitemsPerPage" on-select-page="setPage(page, 'sales')"></pagination>
+              <pagination ng-hide="sales_spinner" id="catsales" page="salescurrentPage" total-items="salestotalItems" items-per-page="salesitemsPerPage" on-select-page="setPage(page, 'sales')"></pagination>
             </div>
           </accordion-group>
 
-          <accordion-group heading="{{catsingles_social | capitalize_fist_char}}" ng-show="catsingles_social">
+          <!-- <accordion-group heading="{{catsingles_social | capitalize_fist_char}}" ng-show="catsingles_social"> -->
+          <accordion-group ng-show="catsingles_social">
+            <accordion-heading>
+              <div ng-click="get_event('singles_social')">{{catsingles_social | capitalize_fist_char}}</div>
+            </accordion-heading>
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <div ng-hide="spinner" ng-repeat="event in singles_social">
+              <p ng-show="singles_social_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <div ng-hide="singles_social_spinner" ng-repeat="event in singles_social">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -327,14 +424,18 @@
                   </eventb>
                 </ul>
               </div>
-              <pagination ng-hide="spinner" id="catsingles_social" page="singles_socialcurrentPage" total-items="singles_socialtotalItems" items-per-page="singles_socialitemsPerPage" on-select-page="setPage(page, 'singles_social')"></pagination>
+              <pagination ng-hide="singles_social_spinner" id="catsingles_social" page="singles_socialcurrentPage" total-items="singles_socialtotalItems" items-per-page="singles_socialitemsPerPage" on-select-page="setPage(page, 'singles_social')"></pagination>
             </div>
           </accordion-group>
 
-          <accordion-group heading="{{catsports | capitalize_fist_char}}" ng-show="catsports">
+          <!-- <accordion-group heading="{{catsports | capitalize_fist_char}}" ng-show="catsports"> -->
+          <accordion-group ng-show="catsports">
+            <accordion-heading>
+              <div ng-click="get_event('sports')">{{catsports | capitalize_fist_char}}</div>
+            </accordion-heading>
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <div ng-hide="spinner" ng-repeat="event in sports">
+              <p ng-show="sports_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <div ng-hide="sports_spinner" ng-repeat="event in sports">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -345,14 +446,18 @@
                   </eventb>
                 </ul>
               </div>
-              <pagination ng-hide="spinner" id="catsports" page="sportscurrentPage" total-items="sportstotalItems" items-per-page="sportsitemsPerPage" on-select-page="setPage(page, 'sports')"></pagination>
+              <pagination ng-hide="sports_spinner" id="catsports" page="sportscurrentPage" total-items="sportstotalItems" items-per-page="sportsitemsPerPage" on-select-page="setPage(page, 'sports')"></pagination>
             </div>
           </accordion-group>
 
-          <accordion-group heading="{{catsupport | capitalize_fist_char}}" ng-show="catsupport">
+          <!-- <accordion-group heading="{{catsupport | capitalize_fist_char}}" ng-show="catsupport"> -->
+          <accordion-group ng-show="catsupport">
+            <accordion-heading>
+              <div ng-click="get_event('support')">{{catsupport | capitalize_fist_char}}</div>
+            </accordion-heading>
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <div ng-hide="spinner" ng-repeat="event in support">
+              <p ng-show="support_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <div ng-hide="support_spinner" ng-repeat="event in support">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -363,14 +468,18 @@
                   </eventb>
                 </ul>
               </div>
-              <pagination ng-hide="spinner" id="catsupport" page="supportcurrentPage" total-items="supporttotalItems" items-per-page="supportitemsPerPage" on-select-page="setPage(page, 'support')"></pagination>
+              <pagination ng-hide="catsupport_spinner" id="catsupport" page="supportcurrentPage" total-items="supporttotalItems" items-per-page="supportitemsPerPage" on-select-page="setPage(page, 'support')"></pagination>
             </div>
           </accordion-group>
 
-          <accordion-group heading="{{cattechnology | capitalize_fist_char}}" ng-show="cattechnology">
+          <!-- <accordion-group heading="{{cattechnology | capitalize_fist_char}}" ng-show="cattechnology"> -->
+          <accordion-group ng-show="cattechnology">
+            <accordion-heading>
+              <div ng-click="get_event('technology')">{{cattechnology | capitalize_fist_char}}</div>
+            </accordion-heading>
             <div class="newspanel">
-              <p ng-show="spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
-              <div ng-hide="spinner" ng-repeat="event in technology">
+              <p ng-show="technology_spinner" class="event_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+              <div ng-hide="technology_spinner" ng-repeat="event in technology">
                 <ul>
                   <eventa url="event.url" image="event.image" title="event.title" venuename="event.venue_name" start="event.start_time" stop="event.stop_time" address="event.venue_address">
                   </eventa>
@@ -381,7 +490,7 @@
                   </eventb>
                 </ul>
               </div>
-              <pagination ng-hide="spinner" id="cattechnology" page="technologycurrentPage" total-items="technologytotalItems" items-per-page="technologyitemsPerPage" on-select-page="setPage(page, 'technology')"></pagination>
+              <pagination ng-hide="technology_spinner" id="cattechnology" page="technologycurrentPage" total-items="technologytotalItems" items-per-page="technologyitemsPerPage" on-select-page="setPage(page, 'technology')"></pagination>
             </div>
           </accordion-group>
         </accordion>

@@ -65,7 +65,7 @@ rates_app.controller('RatesCtrl', ['$scope', '$rootScope', '$http',
             setTimeout(function(){
                 $scope.load_rates();
             }, 500);
-        };
+        }
     });
 
 }]);

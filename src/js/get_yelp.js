@@ -27,7 +27,7 @@ yelp_app.controller("MusicVenueCtrl", ['$scope', '$rootScope', '$http',
             setTimeout(function(){
                 $scope.load_yelp();
             }, 500);
-        };
+        }
     });
 
     $scope.select= function(item) {
@@ -65,7 +65,7 @@ yelp_app.controller("RestaurantCtrl", ['$scope', '$rootScope', '$http',
             setTimeout(function(){
                 $scope.load_yelp();
             }, 500);
-        };
+        }
     });
 
     $scope.select= function(item) {
@@ -104,7 +104,7 @@ yelp_app.controller("ClubCtrl", ['$scope', '$rootScope', '$http',
             setTimeout(function(){
                 $scope.load_yelp();
             }, 500);
-        };
+        }
     });
 
     $scope.select= function(item) {
@@ -142,7 +142,7 @@ yelp_app.controller("GallaryCtrl", ['$scope', '$rootScope', '$http',
             setTimeout(function(){
                 $scope.load_yelp();
             }, 500);
-        };
+        }
     });
 
     /*

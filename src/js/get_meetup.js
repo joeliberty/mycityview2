@@ -79,7 +79,7 @@ meetup_app.controller("meetupCtrl", ['$scope', '$rootScope', '$http',
             setTimeout(function(){
                 $scope.load_meetup();
             }, 500);
-        };
+        }
     });
 }]);
 
