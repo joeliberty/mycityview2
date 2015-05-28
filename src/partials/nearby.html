@@ -2,10 +2,10 @@
   <div class="nearby_container">
     <div class="col-md-12">
       <div ng-controller="NearbyCtrl">
-        <div class="btn-group" dropdown on-toggle="toggled(open)"> 
+        <span class="dropdown" dropdown on-toggle="toggled(open)">
           <div class="btn-group" dropdown is-open="status.isopen">
-            <button type="button" class="btn btn-primary dropdown-toggle" ng-disabled="disabled">
-              Nearby Places <span class="caret"></span>
+            <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+              Button dropdown <span class="caret"></span>
             </button>
               <ul class="dropdown-menu" role="menu">
                 <li ng-repeat="place in places">
@@ -13,9 +13,10 @@
                 </li>
               </ul> 
           </div>
-        </div>
+        </span>
         <div id="nearby" ng-show="message">{{message | remove_underscore}}</div>
       </div>
     </div>
   </div>
 </div>
+

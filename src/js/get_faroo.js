@@ -4,11 +4,16 @@ var faroo_app = angular.module('faroo_app', []);
 
 faroo_app.controller("FarooCtrl", ['$scope', '$rootScope', '$http', 'formatDate', '$q',
     function($scope, $rootScope, $http, formatDate, $q) {
+        //Pagination
+        $scope.totalItems = 0;
+        $scope.currentPage = 0;
+
         $('.tabs_container').css('visibility', 'visible');
         $scope.is_search = false;
         $scope.query = '';
 
     $scope.find_news = function(page, term) {
+        $('.newspanel').scrollTop(0,0);
         $scope[term + '_spinner'] = true;
         $scope.is_search = false;
         var self = this;
@@ -29,7 +34,6 @@ faroo_app.controller("FarooCtrl", ['$scope', '$rootScope', '$http', 'formatDate'
             }
         }).success(function(data, status, headers, config) {
             if(data) {
-                $('.newspanel').scrollTop(0,0);
                 var term = String(config.config.term);
                 $scope[term + '_spinner'] = false;
                 var cur_page = String(config.config.page);
@@ -74,6 +78,11 @@ faroo_app.controller("FarooCtrl", ['$scope', '$rootScope', '$http', 'formatDate'
 
     $scope.setPage = function (pageNo, type) {
         $scope.find_news(pageNo, type);
+    };
+
+    $scope.pageChanged = function() {
+        // console.log('Page changed to: ' + $scope.currentPage);
+        // $scope.find_news($scope.currentPage, 'world');
     };
 
     $scope.get_article = function (type) {

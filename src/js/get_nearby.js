@@ -158,7 +158,8 @@ nearby_app.controller("NearbyCtrl", ['$scope', '$rootScope',
   };
 
   $scope.toggled = function(open) {
-    $log.log('Dropdown is now: ', open);
+    //is not being called
+    // console.log('clicked dropdown');
   };
 
   $scope.toggleDropdown = function($event) {

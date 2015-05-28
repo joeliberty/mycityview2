@@ -38,14 +38,15 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-controller="ShowHomeController">
       <ul class="nav navbar-nav">
-        <li class="dropdown">
-          <a ng-href="/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Cities<span class="caret"></span></a>
-          <!-- <a href="/" class="dropdown-toggle" dropdown-toggle role="button">Cities<span class="caret"></span></a> -->
-          <ul class="dropdown-menu" role="menu">
+        <li class="dropdown" dropdown>
+          <a href class="dropdown-toggle" dropdown-toggle >
+            Cities
+          </a>
+          <ul class="dropdown-menu">
             <li ng-repeat="action in actions | orderBy:'name'">
-              <a ng-click="setAction(action);">{{action.name}}</a>
-            </li>
-          </ul> 
+                  <a ng-click="setAction(action)">{{action.name}}</a>
+                </li>
+          </ul>
         </li>
       </ul>
      </div><!-- /.navbar-collapse -->
