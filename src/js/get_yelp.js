@@ -135,7 +135,7 @@ yelp_app.controller("GallaryCtrl", ['$scope', '$rootScope', '$http',
             }
             $scope.galleries = data_array.businesses;
         });
-    }
+    };
 
     $rootScope.$watch('slidesdone', function() {
         if($rootScope.slidesdone) {

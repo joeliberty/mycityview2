@@ -37,9 +37,12 @@ events_app.controller("EventsCtrl", ['$scope', '$rootScope', '$http', 'formatDat
     $scope.loading_events = true;
     $scope.is_search = false;
     $scope.query = '';
+    $scope.totalItems = 0;
+    $scope.is_search = false;
 
     $scope.find_events = function(page_num, category, count_only) {
         var term = category;
+        $scope.is_search = false;
         $scope[category + '_spinner'] = true;
         var self = this;
         $scope.events = { events: {title:'Retreiving events for ' + $rootScope.city + '.'}};
@@ -93,12 +96,17 @@ events_app.controller("EventsCtrl", ['$scope', '$rootScope', '$http', 'formatDat
                 $scope.loading_events = false;
             }
             var arr = [];
+            var type = String(config.config.category);
             if(data.events) {
+                // If there are events
                 var results;
                 if(data.events.event.length) {
                     results = $scope.events = data.events.event;
                 } else {
                     results = data.events;
+                }
+                if(results.length > 1 && term == 'search') {
+                    $scope.is_search = true; // For is_search pager
                 }
                 $.each(results, function (i, item) {
                     var event = {};
@@ -117,10 +125,18 @@ events_app.controller("EventsCtrl", ['$scope', '$rootScope', '$http', 'formatDat
                     arr.push(event);
                 });
                 $('.newspanel').scrollTop(0,0);
+            } else {
+                if(term == 'search') {
+                    type = String(config.config.category);
+                    $scope[type + '_spinner'] = false;
+                    alert('There were no results for your search');
+                }
             }
             /* Add accordion headings here */
-            if(data.total_items != 0) {
-                var type = String(config.config.category);
+            if(data.total_items !== '0') {
+                // Limit to 100 items
+                if(data.total_items > 100) {data.total_items = 100; }
+                type = String(config.config.category);
                 var catname = 'cat'+type;
                 $scope[catname] = type;
                 $scope[type+'totalItems'] = data.total_items;
@@ -135,6 +151,7 @@ events_app.controller("EventsCtrl", ['$scope', '$rootScope', '$http', 'formatDat
                     $scope[type + '_spinner'] = false;
                  }
              }
+
 
             // console.log('totalItems: ', $scope[type+'totalItems'] + ' currentPage: ', $scope[type+'currentPage'] + ' numOfPages: ' , $scope[type+'numOfPages'] + ' itemsPerPage: ', $scope[type+'itemsPerPage'])
         }); 
