@@ -6,6 +6,8 @@ Site.controller('ShowHomeController', ['$scope', '$rootScope', '$location', '$ht
   function($scope, $rootScope, $location, $http, MyService) {
   $rootScope.locs = MyService.get_json_data();
   $rootScope.nameLength = 20; // Yelp uses this!
+  $rootScope.cur_type = 0; // For attractions
+  $rootScope.cur_places = [];
   $rootScope.times = {
     "fulltime": 0,
     "current": 0,

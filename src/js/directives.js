@@ -113,6 +113,13 @@
       };
     });
 
+    // app.directive("placesa", function() {
+    //   return {
+    //     restrict: 'E',
+    //     templateUrl: "partials/placesa.html"
+    //   };
+    // });
+
     app.directive("navbar", function() {
       return {
         restrict: 'E',

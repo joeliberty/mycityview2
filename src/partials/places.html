@@ -1,25 +1,73 @@
 <div class="row">
-		<div class="places_container">
-			<div class="col-md-12">
-				<div ng-controller="PlacesCtrl">
-					<ul>
-						<li ng-repeat="place in places">
-							<ul>
-								<li>
-								  <a ng-show="place.url" href="{{place.website}}" target="_blank">
-								  <img ng-show="place.url" ng-src="{{place.url}}"/></a>
-								</li>
-								<li ng-show="place.name" class="mname"> {{place.name}}</li>
-								<li ng-show="place.types[0]"> {{place.types[0] | formatType}}</li>
-								<li ng-show="place.formatted_phone_number"> {{place.formatted_phone_number}}</li>
-								<li ng-show="place.formatted_address"> {{place.formatted_address}}</li>
-								<li ng-controller="SetLatLng" class="mapit" ng-click="set_marker(place.geometry.location)" ng-show="place.geometry.location"> Map it</li>
-								<li ng-show="place.website"><a ng-href="{{place.website}}" target="_blank">Website</a></li>
-								<li><hr></li>
-							</ul>
-					  </li>
-					</ul>
-				</div>
+	<div class="places_container">
+		<div class="col-md-12">
+			<div class="placelist" ng-controller="PlacesCtrl">
+			<accordion>
+				<accordion-group>
+				<accordion-heading>
+				<div class="panel-heading" ng-click="load_places('art_gallery')">Galleries</div>
+				</accordion-heading>
+				<placesa places="art_gallery" spinner="loading_places" btntxt="art_gallery"></placesa>
+				</accordion-group>
+
+				<accordion-group>
+				<accordion-heading>
+				<div class="panel-heading" ng-click="load_places('cafe')">Cafes</div>
+				</accordion-heading>
+				<placesa places="cafe" spinner="loading_places" btntxt="cafe"></placesa>
+				</accordion-group>
+
+				<accordion-group>
+				<accordion-heading>
+				<div class="panel-heading" ng-click="load_places('restaurant')">Restaurants</div>
+				</accordion-heading>
+				<placesa places="restaurant" spinner="loading_places" btntxt="restaurant"></placesa>
+				</accordion-group>
+
+				<accordion-group>
+				<accordion-heading>
+				<div class="panel-heading" ng-click="load_places('bar')">Bars</div>
+				</accordion-heading>
+				<placesa places="bar" spinner="loading_places" btntxt="bar"></placesa>
+				</accordion-group>
+
+				<accordion-group>
+				<accordion-heading>
+				<div class="panel-heading" ng-click="load_places('establishment')">Establishments</div>
+				</accordion-heading>
+				<placesa places="establishment" spinner="loading_places" btntxt="establishment"></placesa>
+				</accordion-group>
+
+				<accordion-group>
+				<accordion-heading>
+				<div class="panel-heading" ng-click="load_places('museum')">Museums</div>
+				</accordion-heading>
+				<placesa places="museum" spinner="loading_places" btntxt="museum"></placesa>
+				</accordion-group>
+
+				<accordion-group>
+				<accordion-heading>
+				<div class="panel-heading" ng-click="load_places('night_club')">Night Clubs</div>
+				</accordion-heading>
+				<placesa places="night_club" spinner="loading_places" btntxt="night_club"></placesa>
+				</accordion-group>
+				<accordion-group>
+
+				<accordion-heading>
+				<div class="panel-heading" ng-click="load_places('store')">Shopping</div>
+				</accordion-heading>
+				<placesa places="store" spinner="loading_places" btntxt="store"></placesa>
+				</accordion-group>
+
+				<accordion-group>
+				<accordion-heading>
+				<div class="panel-heading" ng-click="load_places('other_places')">Other Sites</div>
+				</accordion-heading>
+				<placesa places="other_places" spinner="loading_places" btntxt="other_places"></placesa>
+				</accordion-group>
+
+			</accordion>
 			</div>
 		</div>
+	</div>
 </div>

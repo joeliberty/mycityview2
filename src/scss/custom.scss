@@ -270,8 +270,9 @@ ul {
   cursor: pointer;
 }
 
-.newspanel {
-  height: 250px;
+.newspanel, .placespanel,{
+  height: auto;
+  max-height: 300px;
   overflow-y: scroll;
   li img {
     max-width: 200px;
@@ -284,9 +285,10 @@ ul {
   font-style: italic;
 }
 
-.places_container, .twitter_container, .meetup_container{
+.twitter_container, .meetup_container{
   height: 300px;
   overflow-y: scroll;
+  position: relative;
 }
 
 .event_container {
@@ -361,11 +363,11 @@ ul {
   top: -4px;
 }
 
-#eventfinda {
-  height: 33px;
-  position: relative;
-  top: 2px;
-}
+// #eventfinda {
+//   height: 33px;
+//   position: relative;
+//   top: 2px;
+// }
 
 #geonames {
   margin-top: 3px;
@@ -393,6 +395,7 @@ ul {
 
 .details {
   display: none;
+  padding-left: 20px;
 }
 
 .active {
@@ -460,7 +463,7 @@ ul {
   }
 }
 
-.event_spinner, .news_spinner {
+.event_spinner, .news_spinner, .places_spinner, .details_spinner{
   text-align: center;
   position: relative;
   margin-top: 10%;
