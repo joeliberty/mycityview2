@@ -22,8 +22,14 @@
               <a ng-if="details.url" href="{{details.website}}" target="_blank">
               <img ng-show="details.url" ng-src="{{details.url}}"/></a>
             </li>
-            <li ng-show="details.types[0]"> {{details.types[0] | formatType}}</li>
-            <li ng-show="details.formatted_phone_number"> {{details.formatted_phone_number}}</li>
+            <li ng-show="details.types[0]"> {{details.types[0] | formatType}}
+              <span ng-show="details.rating">, {{details.rating}} rating</span>
+            </li>
+
+            <li ng-show="details.formatted_phone_number">
+              <a href="tel:{{details.formatted_phone_number | formatPhone}}">{{details.formatted_phone_number}}</a>
+            </li>
+
             <li ng-show="details.formatted_address"> {{details.formatted_address}}</li>
             <li ng-controller="SetLatLng" class="mapit" ng-click="set_marker(details.geometry.location)" ng-show="details.geometry.location"> Map it</li>
             <li ng-show="details.website"><a ng-href="{{details.website}}" target="_blank">Website</a></li>

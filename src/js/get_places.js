@@ -42,10 +42,12 @@ places_app.controller("PlacesCtrl", ['$scope', '$http', '$rootScope',
         for(var v = 0; v < results.length; v++) {
           places_array.push(results[v]);
         }
+
         $scope.$apply(function() {
           $scope[which_place] = places_array;
           $rootScope.cur_places = $scope[which_place];
         });
+
         $('#' + which_place).css('display', 'block');
         $('#' + which_place).text('More results');
         if (pagination.hasNextPage) {
@@ -223,11 +225,24 @@ places_app.filter('formatId', function () {
   };
 });
 
+places_app.filter('formatPhone', function () {
+  return function (item) {
+    if(typeof item !== 'undefined') {
+      var num = item;
+      num = num.replace(/ /g, '');
+      num = num.replace('(', '');
+      num = num.replace(')', '');
+      return num;
+    }
+  };
+});
+
 places_app.filter('formatType', function () {
   return function (item) {
     var good = typeof(item !== 'undefined') ? item : 0;
     if(good) {
       if(item.indexOf('_') == -1) {
+        item = item.charAt(0).toUpperCase() + item.slice(1);
         return item;
       } else {
         var type_array = item.split('_');
