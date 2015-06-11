@@ -11,6 +11,8 @@ $TOKEN_SECRET = 'wj1kyy0HYqsZctpOL5w3k3Neo64';
 $API_HOST = 'api.yelp.com';
 $DEFAULT_TERM = isset($_GET['term']) ? $_GET['term'] : 'dinner';
 $DEFAULT_LOCATION = isset($_GET['location']) ? $_GET['location'] : 'Melbourne, vic';
+$DEFAULT_OFFSET = isset($_GET['offset']) ? $_GET['offset'] : 0;
+$DEFAULT_SORT = isset($_GET['sort']) ? $_GET['sort'] : 2;
 $SEARCH_LIMIT = 10;
 $SEARCH_PATH = '/v2/search/';
 $BUSINESS_PATH = '/v2/business/';
@@ -52,6 +54,8 @@ function search($term, $location) {
 
     // $url_params['term'] = $term ?: $GLOBALS['DEFAULT_TERM'];
     $url_params['term'] = $term ? $term : $GLOBALS['DEFAULT_TERM'];
+    $url_params['offset'] = $offset ? $offset : $GLOBALS['DEFAULT_OFFSET'];
+    $url_params['sort'] = $sort ? $sort : $GLOBALS['DEFAULT_SORT'];
     // $url_params['location'] = $location?: $GLOBALS['DEFAULT_LOCATION'];
     $url_params['location'] = $location ? $location : $GLOBALS['DEFAULT_LOCATION'];
     $url_params['limit'] = $GLOBALS['SEARCH_LIMIT'];

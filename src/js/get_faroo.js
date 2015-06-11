@@ -42,7 +42,6 @@ faroo_app.controller("FarooCtrl", ['$scope', '$rootScope', '$http', 'formatDate'
                 /* Check if image is good */
                 self.isImage(data, term);
                 var numofpages = parseInt(data.count/10);
-                $('.newspanel').css('display', 'block');
                 var pagerState = (numofpages <= 1) ? 'false' : 'true';
                 $scope['is_' + term] = pagerState; // For is_search pager
             }

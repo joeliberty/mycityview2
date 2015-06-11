@@ -271,8 +271,8 @@ ul {
 }
 
 .newspanel, .placespanel,{
-  height: auto;
-  max-height: 300px;
+  height: 300px;
+  // max-height: 300px;
   overflow-y: scroll;
   li img {
     max-width: 200px;

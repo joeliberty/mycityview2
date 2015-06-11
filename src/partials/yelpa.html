@@ -1,0 +1,33 @@
+<p ng-show="spinner" class="news_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+<ul>
+	<li ng-repeat="thing in things | orderBy:'-rating'">
+		<div ng-hide="spinner">
+			<ul>
+				
+				<li>
+					<a ng-show="thing.image_url" href="{{thing.url}}" target="_blank">
+					<img ng-src="{{thing.image_url}}"/></a>
+				</li>
+				<li><img ng-src="{{thing.rating_img_url_small}}" /> </li>
+				<li ng-show="thing.name">{{thing.name}}</li>
+				<li ng-show="thing.location.address">{{thing.location.address | toString}}, {{thing.location.city}}</li>
+
+				<li ng-show="thing.review_count">{{thing.review_count}}
+				<a ng-show="thing.url" href="{{thing.url}}" target="_blank">Reviews</a>
+				</li>
+				
+				<li ng-show="thing.display_phone">
+					<a href="tel:{{thing.display_phone | formatPhone}}">{{thing.display_phone}}</a>
+				</li>
+
+				
+				<div>
+					<span ng-controller="SetLatLng" class="mapit" ng-show="thing.location.coordinate" ng-click="set_marker(thing.location.coordinate)"> Map it</span><br/>
+					<a ng-show="thing.url" href="{{thing.url}}" target="_blank">URL</a>
+				</div>
+
+				<li><hr></li>
+			</ul>
+		</div>
+	</li>
+</ul>

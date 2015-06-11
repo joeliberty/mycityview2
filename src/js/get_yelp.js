@@ -2,35 +2,69 @@
 'use strict';
 var yelp_app = angular.module('yelp_app', []);
 
-yelp_app.controller("MusicVenueCtrl", ['$scope', '$rootScope', '$http',
-    function($scope, $rootScope, $http) {
-    $scope.load_yelp = function() {
+yelp_app.controller("YelpCtrl", ['$scope', '$rootScope', '$http','$q',
+    function($scope, $rootScope, $http, $q) {
+        //Pagination
+        $scope.totalItems = 0;
+        $scope.currentPage = 0;
+        $scope.yelp = {};
+        // Yelp Sort mode: 0=Best matched (default), 1=Distance, 2=Highest Rated
+        $scope.filters = [{type: "Best matched", value: 0},{type: "Closest", value: 1},{type: "Highest Rated",value: 2}];
+        $scope.yelp.selectedItem = $scope.filters[1];
+
+    $scope.find_yelp = function(page, term) {
+        $('.newspanel').scrollTop(0,0);
+        var form_data = $scope.yelp;
+        $scope[term + '_spinner'] = true;
+        $scope.is_search = false;
+        var self = this;
+        var query = (term == 'search') ? form_data.query : term;
+        var sort = form_data.selectedItem.value;
+        var url = 'php/yelp_sample.php';
         $http({
-            url: 'php/yelp_sample.php',
-            method: "GET",
-            params: {term: 'hotels',
-                    location: $rootScope.city_state_country}
-        }).success(function(data) {
-            var data_array = [];
-            data_array.push(jQuery.parseJSON(data));
-            data_array = jQuery.parseJSON(data_array);
-            $scope.yelp_unavailable = false;
-            if(data_array.error) {
-                $scope.yelp_unavailable = true;
+            url: url,
+            dataType: 'json',
+            method: 'GET',
+            cache: true,
+            params: {
+                term: query,
+                sort: sort,
+                offset: (page - 1) * 10 + 1,
+                location: $rootScope.city_state_country
+            },
+            config: {
+                term: term,
+                page: page
             }
-            $scope.musicvenues = data_array.businesses;
-        });
+        }).success(function(data, status, headers, config) {
+            if(data) {
+                var data_array = [];
+                data_array.push(jQuery.parseJSON(data));
+                data_array = jQuery.parseJSON(data_array);
+
+                var term = String(config.config.term);
+                $scope[term + '_spinner'] = false;
+                var cur_page = String(config.config.page);
+                /* Add currentPage to data for pagination */
+                data_array.businesses.currentPage = cur_page;
+
+                /* Check if image is good */
+                // self.isImage(data_array, term);
+                $scope[term] = data_array.businesses;
+                $scope[term].count = (data_array.total <= 100) ? data_array.total : 100;
+
+                var numofpages = (parseInt(data_array.total/10) <= 10) ? parseInt(data_array.total/10) : 10;
+                var pagerState = (numofpages <= 1) ? 'false' : 'true';
+                $scope['is_' + term] = pagerState; // For is_search pager
+            }
+        }); 
     };
 
-    $rootScope.$watch('slidesdone', function() {
-        if($rootScope.slidesdone) {
-            setTimeout(function(){
-                $scope.load_yelp();
-            }, 500);
-        }
-    });
+    $scope.load_yelp = function(query) {
+        $scope.find_yelp(1, query);
+    };
 
-    $scope.select= function(item) {
+    $scope.select = function(item) {
         var same = (item === $scope.selected) ? true : false;
         $scope.selected = (item === $scope.selected) ? null : item;
     };
@@ -38,125 +72,44 @@ yelp_app.controller("MusicVenueCtrl", ['$scope', '$rootScope', '$http',
     $scope.isActive = function(item) {
         return $scope.selected === item;
     };
-}]);
 
-yelp_app.controller("RestaurantCtrl", ['$scope', '$rootScope', '$http',
-    function($scope, $rootScope, $http) {
-    $scope.load_yelp = function() {
-        $http({
-            url: 'php/yelp_sample.php',
-            method: "GET",
-            params: {term: 'restaurant',
-                    location: $rootScope.city_state_country}
-        }).success(function(data) {
-            var data_array = [];
-            data_array.push(jQuery.parseJSON(data));
-            data_array = jQuery.parseJSON(data_array);
-            $scope.yelp_unavailable = false;
-            if(data_array.error) {
-                $scope.yelp_unavailable = true;
-            }
-            $scope.restaurants = data_array.businesses;
-        });
+    $scope.setPage = function (pageNo, type) {
+        $scope.find_yelp(pageNo, type);
     };
 
-    $rootScope.$watch('slidesdone', function() {
-        if($rootScope.slidesdone) {
-            setTimeout(function(){
-                $scope.load_yelp();
-            }, 500);
+    $scope.submit = function() {
+        if(this.query === '') {
+            alert('Please type in a search term.');
+            return;
         }
-    });
-
-    $scope.select= function(item) {
-        var same = (item === $scope.selected) ? true : false;
-        $scope.selected = (item === $scope.selected) ? null : item;
-    };
-
-    $scope.isActive = function(item) {
-        return $scope.selected === item;
+        $scope.query = this.query;
+        $scope.find_yelp(1, 'search');
     };
 }]);
 
-yelp_app.controller("ClubCtrl", ['$scope', '$rootScope', '$http',
-    function($scope, $rootScope, $http) {
-    $scope.load_yelp = function() {
-        $http({
-            url: 'php/yelp_sample.php',
-            method: "GET",
-            params: {term: 'happy hour',
-                    location: $rootScope.city_state_country}
-        }).success(function(data) {
-            var data_array = [];
-            data_array.push(jQuery.parseJSON(data));
-            data_array = jQuery.parseJSON(data_array);
-            var type = Object.prototype.toString.call(data_array);
-            $scope.yelp_unavailable = false;
-            if(data_array.error) {
-                $scope.yelp_unavailable = true;
-            }
-            $scope.clubs = data_array.businesses;
-        });
+yelp_app.directive('yelpa', function () {
+    return {
+        restrict:'EA',
+        scope:{
+            things : '=things',
+            spinner : '='
+        },
+        templateUrl: 'partials/yelpa.html',
     };
+});
 
-    $rootScope.$watch('slidesdone', function() {
-        if($rootScope.slidesdone) {
-            setTimeout(function(){
-                $scope.load_yelp();
-            }, 500);
-        }
-    });
+yelp_app.filter('formatPhone', function () {
+  return function (item) {
+    if(typeof item !== 'undefined') {
+      var num = item;
+      num = num.replace(/ /g, '');
+      num = num.replace('(', '');
+      num = num.replace(')', '');
+      return num;
+    }
+  };
+});
 
-    $scope.select= function(item) {
-        var same = (item === $scope.selected) ? true : false;
-        $scope.selected = (item === $scope.selected) ? null : item;
-    };
-
-    $scope.isActive = function(item) {
-        return $scope.selected === item;
-    };
-}]);
-
-yelp_app.controller("GallaryCtrl", ['$scope', '$rootScope', '$http',
-    function($scope, $rootScope, $http) {
-    $scope.load_yelp = function() {
-        $http({
-            url: 'php/yelp_sample.php',
-            method: "GET",
-            params: {term: 'show',
-                    location: $rootScope.city_state_country}
-        }).success(function(data) {
-            var data_array = [];
-            data_array.push(jQuery.parseJSON(data));
-            data_array = jQuery.parseJSON(data_array);
-            $scope.yelp_unavailable = false;
-            if(data_array.error) {
-                $scope.yelp_unavailable = true;
-            }
-            $scope.galleries = data_array.businesses;
-        });
-    };
-
-    $rootScope.$watch('slidesdone', function() {
-        if($rootScope.slidesdone) {
-            setTimeout(function(){
-                $scope.load_yelp();
-            }, 500);
-        }
-    });
-
-    /*
-    * Select and isActive toggle Yelp details
-    */
-    $scope.select= function(item) {
-        $scope.selected = (item === $scope.selected) ? null : item;
-        
-    };
-
-    $scope.isActive = function(item) {
-        return $scope.selected === item;
-    };
-}]);
 
 yelp_app.filter('toString', function () {
   return function (item) {
