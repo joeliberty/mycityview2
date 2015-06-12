@@ -116,6 +116,7 @@ ul {
 .horz_list {
   li{
     display: inline-block;
+    white-space: nowrap;
   }
   span{
     cursor: pointer;
@@ -289,6 +290,7 @@ ul {
   height: 300px;
   overflow-y: scroll;
   position: relative;
+  border: 1px solid #cccccc;
 }
 
 .event_container {
@@ -410,7 +412,6 @@ ul {
 
 
 .meetup_names {
-  font-size: 110%;
   font-weight: 600;
   font-style: italic;
 }

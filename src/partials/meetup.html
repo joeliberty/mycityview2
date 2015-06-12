@@ -1,21 +1,22 @@
 <div class="row">
-		<div class="meetup_container">
+		<div>
 			<div class="col-md-12">
-				<div ng-controller="meetupCtrl">
+				<div class="meetup_container" ng-controller="meetupCtrl">
 					<h5 ng-show="meetup_unavailable">Unavailable for {{city}}.</h5>
-					<p id="meetup_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+					<p ng-show="details_spinner" class="details_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
 					<ul>
 						<li ng-repeat="event in ::events track by $index">
 							<div>
 								<ul class="horz_list">
 									<li>
-										<span class="meetup_names" ng-click="select(event)"> <i class="fa fa-search-plus"></i> {{event.name}}
+										<span id="{{event.name | formatId}}" class="meetup_names" ng-click="select(event)"> <i class="fa fa-search-plus"></i> {{event.name | shortentext}}
 											<i ng-class="{rotate: isActive(event)}" class="fa fa-caret-right"></i>
 										</span>
 									</li>
 								</ul>
 								<div class="details" ng-class="{active: isActive(event)}">
 								<ul>
+									<li ng-if="ismobile">{{event.name}}</li>
 									<li ng-show="event.group_name" class="mname">By: {{event.group_name}}</li>
 									<li ng-show="event.description" ng-bind-html="event.description"></li>
 									<li ng-show="event.join_mode">{{event.join_mode}}</li>

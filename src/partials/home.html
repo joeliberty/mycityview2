@@ -19,7 +19,14 @@
 
       <tab heading="Attractions"><places></places></tab>
       <tab heading="Tweets"><twitter></twitter></tab>
-      <tab heading="Meetup"><meetup></meetup></tab>
+
+      <tab  ng-controller="meetupCtrl" ng-click="get_meetup()">
+        <tab-heading>
+          <div>Meetup</div>
+        </tab-heading>
+        <meetup></meetup>
+      </tab>
+
       <tab heading="Nearby"><nearby></nearby></tab>
       <tab>
         <tab-heading>
