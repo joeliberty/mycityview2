@@ -2,19 +2,22 @@
   <div class="rate_container">
     <div class="col-md-12">
       <div ng-controller="RatesCtrl">
-      <h4 ng-controller="GetTimeCtrl">Exchange Rates @ {{times.current}}</h4>
-      <div ng-repeat="currency in currencies">
-        <h5>By {{currency.fullname}}</h5>
-        <ul>
-          <li ng-repeat="data in currency.rates">
-            <a href title="{{data.fullname}}" data-toggle="tooltip" data-position="top" tooltip><img ng-src="images/flags/{{data.country}}.png"></a>
-            <p ng-show="data.Rate" class="mname"> {{data.Rate}}</p>
-          </li>
-        </ul>
-        <hr>
+        <p ng-show="details_spinner" class="details_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+        <div ng-hide="details_spinner" class="rates">
+          <h4 ng-controller="GetTimeCtrl">Exchange Rates @ {{times.current}}</h4>
+          <div ng-repeat="currency in currencies">
+            <h5 ng-hide="details_spinner">By {{currency.fullname}}</h5>
+            <ul>
+              <li ng-hide="details_spinner" ng-repeat="data in currency.rates">
+                <a href title="{{data.fullname}}" data-toggle="tooltip" data-position="top" tooltip><img ng-src="images/flags/{{data.country}}.png"></a>
+                <p ng-show="data.Rate" class="mname"> {{data.Rate}}</p>
+              </li>
+            </ul>
+            <hr>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </div>
 

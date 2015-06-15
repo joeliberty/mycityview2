@@ -28,7 +28,8 @@
       </tab>
 
       <tab heading="Nearby"><nearby></nearby></tab>
-      <tab>
+
+      <tab ng-controller="RatesCtrl" ng-click="get_rates()">
         <tab-heading>
         <i class="fa fa-usd"></i> <i class="fa fa-exchange"></i> <i class="fa fa-eur"></i>
         </tab-heading>

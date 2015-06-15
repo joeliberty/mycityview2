@@ -5,7 +5,9 @@ var rates_app = angular.module('rates_app', ['ui.bootstrap']);
 
 rates_app.controller('RatesCtrl', ['$scope', '$rootScope', '$http',
     function($scope, $rootScope, $http) {
+
     $scope.load_rates = function() {
+        $scope.details_spinner = true;
         var self = this;
         $scope.amount = 1;
         $scope.currencies = [];
@@ -20,25 +22,35 @@ rates_app.controller('RatesCtrl', ['$scope', '$rootScope', '$http',
                 }
                 str = str.substring(0, str.length - 1);
                 var url = "https://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.xchange where pair in (" + str + ")&format=json&diagnostics=true&env=store://datatables.org/alltableswithkeys&callback=";
-                $.getJSON(url, function (data) {
-                    var currency = {};
-                    /* Add necessary key:values */
-                    $.each(data.query.results.rate, function (i, item) {
-                        var abbrev = item.id;
-                        $scope.base = abbrev.slice(0,3);
-                        currency.sortid = $scope.base_rates.indexOf($scope.base);
-                        item.country = abbrev.slice(3);
-                        item.fullname = self.get_full_names(abbrev.slice(3), $scope.all_currencies);
-                    });
-                    currency.base = $scope.base;
-                    currency.fullname = self.get_full_names($scope.base, $scope.all_currencies);
-                    currency.rates = data.query.results.rate;
-                    $scope.currencies.push(currency);
-                    if($scope.currencies.length == $scope.base_rates.length) {
-                        $scope.currencies.sort(self.compare);
+                $http({
+                    url: url,
+                    dataType: 'json',
+                    method: 'GET',
+                    cache: true
+                }).success(function(data, status, headers) {
+                    if(data) {
+
+                        var currency = {};
+                        /* Add necessary key:values */
+                        $.each(data.query.results.rate, function (i, item) {
+                            var abbrev = item.id;
+                            $scope.base = abbrev.slice(0,3);
+                            currency.sortid = $scope.base_rates.indexOf($scope.base);
+                            item.country = abbrev.slice(3);
+                            item.fullname = self.get_full_names(abbrev.slice(3), $scope.all_currencies);
+                        });
+                        currency.base = $scope.base;
+                        currency.fullname = self.get_full_names($scope.base, $scope.all_currencies);
+                        currency.rates = data.query.results.rate;
+                        $scope.currencies.push(currency);
+                        if($scope.currencies.length == $scope.base_rates.length) {
+                            $scope.currencies.sort(self.compare);
+                        }
+                         $scope.details_spinner = false;
                     }
                 });
             }
+
         });
 
         this.compare = function(a,b) {
@@ -60,14 +72,9 @@ rates_app.controller('RatesCtrl', ['$scope', '$rootScope', '$http',
         };
     };
 
-    $rootScope.$watch('slidesdone', function() {
-        if($rootScope.slidesdone) {
-            setTimeout(function(){
-                $scope.load_rates();
-            }, 500);
-        }
-    });
-
+    $scope.get_rates = function() {
+        $scope.load_rates();
+    }
 }]);
 
 })();

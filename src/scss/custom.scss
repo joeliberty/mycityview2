@@ -286,11 +286,18 @@ ul {
   font-style: italic;
 }
 
-.twitter_container, .meetup_container{
+.twitter_container, .meetup_container, .rate_container{
   height: 300px;
   overflow-y: scroll;
   position: relative;
   border: 1px solid #cccccc;
+}
+
+@media screen and (max-width: 400px) {
+  .twitter_container, .meetup_container, .rate_container {
+    margin-left:  15px;
+    margin-right: 15px;
+  }
 }
 
 .event_container {

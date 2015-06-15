@@ -8,15 +8,12 @@ meetup_app.controller("meetupCtrl", ['$scope', '$rootScope', '$http',
     $scope.load_meetup = function() {
         $scope.details_spinner = true;
         $scope.ismobile = (screen.width <= 400) ? true : false;
-        console.log('mobileon', $scope.mobileon)
         var startdate = new Date();
         var now = new Date();
         var enddate = new Date(now);
         enddate = enddate.setDate(now.getDate()+5);
         enddate = new Date(enddate);
         var city = $rootScope.city;
-        var state = $rootScope.state;
-        var country = $rootScope.country;
         var city_data = $rootScope.locs;
         var t_city = $rootScope.city_id;
         var lat = city_data[t_city].lat;
@@ -28,14 +25,11 @@ meetup_app.controller("meetupCtrl", ['$scope', '$rootScope', '$http',
             method: 'GET',
             cache: true,
             params: {
-                city: city,
-                state: state,
-                country: country,
                 lat: lat,
                 lon: lon
             }
         }).success(function(data, status, headers) {
-            if(data) {
+            if(data !== 'false') {
                 var data_array = [];
                 var arr = [];
                 data_array.push(jQuery.parseJSON(data));
@@ -76,6 +70,9 @@ meetup_app.controller("meetupCtrl", ['$scope', '$rootScope', '$http',
                 });
                 $scope.meetup_unavailable = (arr.length === 0) ? true : false;
                 $scope.events = arr;
+                $scope.details_spinner = false;
+            } else {
+                $scope.meetup_unavailable = true;
                 $scope.details_spinner = false;
             }
         });
@@ -141,7 +138,6 @@ meetup_app.filter('shortentext', function () {
     if(good) {
       if(item.length >= 30 && screen.width <= 400) {
         var txt = item.substring(0, 30);
-        console.log('screen.width', screen.width)
         txt = txt + '...';
         return txt;
       } else {
