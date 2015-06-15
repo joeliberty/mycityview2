@@ -42,7 +42,9 @@ twitter_app.factory('formatText', function() {
 
 twitter_app.controller('TwitterCtrl', ['$scope', '$rootScope', '$http',
     function($scope, $rootScope, $http) {
+
     $scope.load_twitter = function() {
+        $scope.details_spinner = true;
         var city_state_country = '';
         var t_city = $rootScope.city.replace(" ", "%20");
         if($rootScope.state) {
@@ -50,25 +52,21 @@ twitter_app.controller('TwitterCtrl', ['$scope', '$rootScope', '$http',
         } else {
             city_state_country = '%23' + t_city +'%20'+$rootScope.country;
         }
-        $('#twitter_spinner i').css('display', 'inline-block');
         $http({
             url: 'php/get_twitter.php',
             dataType: 'json',
+            cache: true,
             params: {q: city_state_country},
             method: "GET"
         }).success(function(data) {
-            $('#twitter_spinner i').css('display', 'none');
+            $scope.details_spinner = false;
             $scope.tweets = data;
         });
     };
 
-    $rootScope.$watch('slidesdone', function() {
-        if($rootScope.slidesdone) {
-            setTimeout(function(){
-                $scope.load_twitter();
-            }, 500);
-        }
-    }); 
+    $scope.get_twitter = function() {
+        $scope.load_twitter();
+    };
 }]);
 
 twitter_app.filter('addUrls', ['$sce', 'formatText',

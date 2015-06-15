@@ -11,7 +11,8 @@ time_app.controller("GetTimeCtrl", ['$scope', '$rootScope', '$http',
     var username = 'jliberty';
     $http({
         url: 'http://api.geonames.org/timezoneJSON',
-        dataType: 'jsonp', 
+        dataType: 'jsonp',
+        cache: true,
         method: "GET",
         params: {
                 lat: city_data[t_city].lat,

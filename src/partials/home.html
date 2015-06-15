@@ -5,20 +5,23 @@
 <div class="container">
   <div class="tabs_container">
     <tabset>
+
       <tab heading="News"><faroo></faroo></tab>
+
       <!-- <tab heading="Movies"><movies></movies></tab> -->
+
       <tab heading="Yelp"><yelp></yelp></tab>
+
       <tab heading="Event"><events></events></tab>
 
-      <!-- <tab  ng-controller="EventsCtrl" ng-click="find_categories()">
-        <tab-heading>
-          <div>Events</div>
-        </tab-heading>
-        <events></events>
-      </tab> -->
-
       <tab heading="Attractions"><places></places></tab>
-      <tab heading="Tweets"><twitter></twitter></tab>
+
+      <tab  ng-controller="TwitterCtrl" ng-click="get_twitter()">
+        <tab-heading>
+          <div>Tweets</div>
+        </tab-heading>
+        <twitter></twitter>
+      </tab>
 
       <tab  ng-controller="meetupCtrl" ng-click="get_meetup()">
         <tab-heading>

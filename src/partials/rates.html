@@ -2,7 +2,10 @@
   <div class="rate_container">
     <div class="col-md-12">
       <div ng-controller="RatesCtrl">
-        <p ng-show="details_spinner" class="details_spinner"><i class="fa fa-refresh fa-spin fa-2x"></i></p>
+        <p ng-show="details_spinner" class="details_spinner">
+          <i class="fa fa-refresh fa-spin fa-2x"></i><br/>
+          Loading Exchange Rates
+        </p>
         <div ng-hide="details_spinner" class="rates">
           <h4 ng-controller="GetTimeCtrl">Exchange Rates @ {{times.current}}</h4>
           <div ng-repeat="currency in currencies">

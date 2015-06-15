@@ -84,12 +84,14 @@ Site.controller('GetHeaderImage', ['$scope', '$rootScope', '$http',
   $scope.myInterval = 7000; //Carousel delay
   $http({
     url: 'php/get_image_files.php',
-    dataType: 'json', 
+    dataType: 'json',
+    cache: true,
     method: "GET",
     params: {filename: path}
   }).success(function(data) {
     $scope.slides = data;
     $rootScope.slidesdone = true;
+    $('.glyphicon-chevron-right').css('display', 'inline-block');
   }); 
 }]);
 
