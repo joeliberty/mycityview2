@@ -23,7 +23,7 @@ Site.controller('ShowHomeController', ['$scope', '$rootScope', '$location', '$ht
   /* Set defaults */
   $rootScope.city = (new_city) ? new_city.replace(/_/g, ' ') : 'Melbourne';
   $rootScope.city_id = (new_city) ? new_city : 'Melbourne';
-  $rootScope.state = (new_city) ? $rootScope.locs[new_city].state : '';
+  $rootScope.state = (new_city) ? $rootScope.locs[new_city].state : 'vic';
   $rootScope.country = (new_city) ? $rootScope.locs[new_city].country : 'au';
   $rootScope.map = null;
 

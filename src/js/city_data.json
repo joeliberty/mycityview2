@@ -1,6 +1,6 @@
 {
     "Santa_Fe": {"state": "nm", "country": "us", "lon": "-105.94","lat": "35.69"},
-    "Melbourne": {"state": "", "country": "au", "lon": "144.9629796","lat": "-37.8131869"},
+    "Melbourne": {"state": "vic", "country": "au", "lon": "144.9629796","lat": "-37.8131869"},
     "New_York": {"state": "ny", "country": "us", "lon": "-74.01","lat": "40.71"},
     "Boston": {"state": "ma", "country": "us", "lon": "-71.06","lat": "42.36"},
     "Leesburg": {"state": "va", "country": "us", "lon": "-77.57","lat": "39.12"},
@@ -8,10 +8,10 @@
     "Tampa": {"state": "fl", "country": "us", "lon": "-82.46","lat": "27.95"},
     "Los_Angeles": {"state": "ca", "country": "us", "lon": "-118.25","lat": "34.05"},
     "Fairfax": {"state": "va", "country": "us", "lon": "-77.31","lat": "38.84"},
-    "Adelaide": {"state": "", "country": "au", "lon": "138.59988","lat": "-34.9261"},
-    "Brisbane": {"state": "", "country": "au", "lon": "153.02342","lat": "-27.46846"},
-    "Hobart": {"state": "", "country": "au", "lon": "147.33162","lat": "-42.88164"},
-    "Perth": {"state": "", "country": "au", "lon": "115.85741","lat": "-31.95264"},
+    "Adelaide": {"state": "sa", "country": "au", "lon": "138.59988","lat": "-34.9261"},
+    "Brisbane": {"state": "qld", "country": "au", "lon": "153.02342","lat": "-27.46846"},
+    "Hobart": {"state": "tas", "country": "au", "lon": "147.33162","lat": "-42.88164"},
+    "Perth": {"state": "wa", "country": "au", "lon": "115.85741","lat": "-31.95264"},
     "San_Francisco": {"state": "ca", "country": "us", "lon": "-122.42","lat": "37.78"},
     "Paris": {"state": "", "country": "fr", "lon": "2.3412","lat": "48.8569"},
     "London": {"state": "", "country": "uk", "lon": "-0.13","lat": "51.51"},
@@ -32,7 +32,7 @@
     "Jakarta": {"state": "", "country": "my", "lon": "106.8","lat": "-6.58"},
     "Moscow": {"state": "", "country": "ru", "lon": "37.62","lat": "55.75"},
     "Helsinki": {"state": "", "country": "fi", "lon": "24.94","lat": "60.17"},
-    "McCrae": {"state": "", "country": "au", "lon": "144.93","lat": "-38.35"},
+    "McCrae": {"state": "vic", "country": "au", "lon": "144.93","lat": "-38.35"},
     "San_Diego": {"state": "ca", "country": "us", "lon": "-117.157255","lat": "32.7153292"},
-    "Sydney": {"state": "", "country": "au", "lon": "151.21","lat": "-33.87"}
+    "Sydney": {"state": "nsw", "country": "au", "lon": "151.21","lat": "-33.87"}
 }
