@@ -5,67 +5,93 @@ var places_app = angular.module('places_app', []);
 places_app.controller("PlacesCtrl", ['$scope', '$http', '$rootScope',
   function($scope, $http, $rootScope) {
     
-  $scope.load_places = function(which_place) {
+  $scope.load_places = function(which_place, next_page_token) {
+
+    var types;
     types = ['art_gallery', 'cafe', 'restaurant', 'bar', 'establishment', 'museum', 'night_club', 'store', 'other_places'];
-    $rootScope.cur_type = types.indexOf(which_place);
+    if (typeof which_place !== 'undefined') {
+      $rootScope.cur_type = types.indexOf(which_place);
+      $rootScope.cur_place = which_place;
+    } else {
+      $rootScope.cur_type = types.indexOf($rootScope.cur_place);
+    }
     if($scope[which_place]) { return; }
     $scope.loading_places = true;
     clearMarkers();
     var t_city = $rootScope.city_id;
     var city_data = $rootScope.locs;
-    var pyrmont = new google.maps.LatLng(city_data[t_city].lat,city_data[t_city].lon);
     $scope.bounds = new google.maps.LatLngBounds();
-    var types;
+
     if(which_place == 'other_places') {
-      types = ['amusement_park', 'aquarium', 'bakery', 'book_store', 'bowling_alley', 'gym', 'park', 'zoo'];
+      types = 'amusement_park|aquarium|bakery|book_store|bowling_alley|gym|park|zoo';
     } else {
       types = [which_place];
     }
-    var request = {
-      location: pyrmont,
-      radius: 1000,
-      types: types
-    };
-    var service = new google.maps.places.PlacesService($('#for_places').get(0));
-    service.nearbySearch(request, callback);
-
-    function callback(results, status, pagination) {
-      if(!$scope[which_place]) { $scope[which_place] = []; }
-      if (status != google.maps.places.PlacesServiceStatus.OK) {
-        $scope[which_place].push({status: status});
-        $scope.loading_places = 0;
-        $('#' + which_place).css('display', 'none');
-        return;
-      } else {
-        $scope.loading_places = 0;
-        var places_array = $scope[which_place];
-        for(var v = 0; v < results.length; v++) {
-          places_array.push(results[v]);
+    var location = city_data[t_city].lat + ',' + city_data[t_city].lon;
+    var url = 'php/get_google_places.php';
+    $http({
+      url: url,
+      dataType: 'json',
+      method: 'GET',
+      cache: true,
+      params: {
+          location: location,
+          radius: 5000,
+          pagetoken: next_page_token,
+          types: types
+      },
+      config: {
+          which_place: which_place
+      }
+    }).success(function(data, status, headers, config) {
+      if(data) {
+        var which_place = String(config.config.which_place);
+        if (which_place !== 'undefined') {
+          $scope.term = which_place;
+        } else {
+          which_place = $scope.term;
         }
 
-        $scope.$apply(function() {
+        $scope.next_page_token = data.next_page_token;
+        $scope[which_place + '_spinner'] = false;
+
+        if(!$scope[which_place]) { $scope[which_place] = []; }
+        if (data.status != 'OK') {
+          $scope[which_place].push({status: status});
+          $scope.loading_places = 0;
+          $('#' + which_place).css('display', 'none');
+          return;
+        } else {
+          $scope.loading_places = 0;
+          var places_array = $scope[which_place];
+          for(var v = 0; v < data.results.length; v++) {
+            places_array.push(data.results[v]);
+          }
+
           $scope[which_place] = places_array;
           $rootScope.cur_places = $scope[which_place];
-        });
 
-        $('#' + which_place).css('display', 'block');
-        $('#' + which_place).text('More results');
-        if (pagination.hasNextPage) {
-          var moreButton = document.getElementById(which_place);
+          $('#' + which_place).css('display', 'block');
+          $('#' + which_place).text('More results');
+          if (data.next_page_token) {
+            $scope.more_btn = true;
 
-          moreButton.disabled = false;
+            var moreButton = document.getElementById($scope.term);
 
-          google.maps.event.addDomListenerOnce(moreButton, 'click',
-              function() {
-            $('#' + which_place).text('Loading ...');
-            moreButton.disabled = true;
-            pagination.nextPage();
-          });
-        } else {
-          $('#' + which_place).css('display', 'none');
+            moreButton.disabled = false;
+
+            google.maps.event.addDomListenerOnce(moreButton, 'click',
+                function() {
+              $('#' + which_place).text('Loading ...');
+              moreButton.disabled = true;
+              $scope.load_places($scope.which_place,$scope.next_page_token);
+            });
+          } else {
+            $('#' + which_place).css('display', 'none');
+          }
         }
       }
-    }
+    });
   };
 
   function clearMarkers() {

@@ -13,7 +13,7 @@
     "Hobart": {"state": "tas", "country": "au", "lon": "147.33162","lat": "-42.88164"},
     "Perth": {"state": "wa", "country": "au", "lon": "115.85741","lat": "-31.95264"},
     "San_Francisco": {"state": "ca", "country": "us", "lon": "-122.42","lat": "37.78"},
-    "Paris": {"state": "", "country": "fr", "lon": "2.3412","lat": "48.8569"},
+    "Paris": {"state": "", "country": "fr", "lon": "2.34864","lat": "48.85339"},
     "London": {"state": "", "country": "uk", "lon": "-0.13","lat": "51.51"},
     "Rome": {"state": "", "country": "it", "lon": "12.5","lat": "41.9"},
     "Singapore": {"state": "", "country": "sg", "lon": "103.85","lat": "1.29"},
