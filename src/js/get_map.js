@@ -84,6 +84,7 @@ map_app.controller('SetLatLng', ['$scope', '$rootScope',
     function ($scope, $rootScope) {
     $scope.isCollapsed = false;
     $scope.set_marker = function(loc1, loc2) {
+        // console.log('loc1 :',loc1.G);
         /*
         * Latitude and longitude are dependent on the datasource.
         * Until there is a better solution, sort them out here 
@@ -100,6 +101,14 @@ map_app.controller('SetLatLng', ['$scope', '$rootScope',
                     switch(key) {
                     case 'F':
                         lng = loc1[key];
+                        break;
+                    case 'G':
+                        //Google places
+                        lat = loc1.G;
+                        break;
+                    case 'K':
+                        //Google places
+                        lng = loc1.K;
                         break;
                     case 'lng':
                         lng = loc1[key];

@@ -32,7 +32,8 @@
 					<accordion-heading>
 						<div class="panel-heading" ng-click="load_yelp('art')">Art</div>
 					</accordion-heading>
-					<div  class="newspanel">
+						<div ng-hide="good_data">Sorry, no results found.</div>
+						<div ng-show="good_data" class="newspanel">
 						<yelpa things="art" spinner="art_spinner" ></yelpa>
 						<pagination ng-hide="art_spinner" id="art" total-items="art.count" ng-model="currentPage" ng-click="setPage(currentPage, 'art')"></pagination>
 					</div>
@@ -42,7 +43,8 @@
 					<accordion-heading>
 						<div class="panel-heading" ng-click="load_yelp('hotels')">Hotels</div>
 					</accordion-heading>
-					<div  class="newspanel">
+						<div ng-hide="good_data">Sorry, no results found.</div>
+						<div ng-show="good_data" class="newspanel">
 						<yelpa things="hotels" spinner="hotels_spinner" ></yelpa>
 						<pagination ng-hide="hotels_spinner" id="hotels" total-items="hotels.count" ng-model="currentPage" ng-click="setPage(currentPage, 'hotels')"></pagination>
 					</div>
@@ -52,7 +54,8 @@
 					<accordion-heading>
 						<div class="panel-heading" ng-click="load_yelp('music')">Music</div>
 					</accordion-heading>
-					<div  class="newspanel">
+						<div ng-hide="good_data">Sorry, no results found.</div>
+						<div ng-show="good_data" class="newspanel">
 						<yelpa things="music" spinner="music_spinner" ></yelpa>
 						<pagination ng-hide="music_spinner" id="music" total-items="music.count" ng-model="currentPage" ng-click="setPage(currentPage, 'music')"></pagination>
 					</div>
@@ -62,7 +65,8 @@
 					<accordion-heading>
 						<div class="panel-heading" ng-click="load_yelp('restaurants')">Restaurants</div>
 					</accordion-heading>
-					<div  class="newspanel">
+						<div ng-hide="good_data">Sorry, no results found.</div>
+						<div ng-show="good_data" class="newspanel">
 						<yelpa things="restaurants" spinner="restaurants_spinner" ></yelpa>
 						<pagination ng-hide="restaurants_spinner" id="restaurants" total-items="restaurants.count" ng-model="currentPage" ng-click="setPage(currentPage, 'restaurants')"></pagination>
 					</div>
@@ -72,7 +76,8 @@
 					<accordion-heading>
 						<div class="panel-heading" ng-click="load_yelp('theatre')">Theatre</div>
 					</accordion-heading>
-					<div  class="newspanel">
+						<div ng-hide="good_data">Sorry, no results found.</div>
+						<div ng-show="good_data" class="newspanel">
 						<yelpa things="theatre" spinner="theatre_spinner" ></yelpa>
 						<pagination ng-hide="theatre_spinner" id="theatre" total-items="theatre.count" ng-model="currentPage" ng-click="setPage(currentPage, 'theatre')"></pagination>
 					</div>

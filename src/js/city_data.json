@@ -34,5 +34,9 @@
     "Helsinki": {"state": "", "country": "fi", "lon": "24.94","lat": "60.17"},
     "McCrae": {"state": "vic", "country": "au", "lon": "144.93","lat": "-38.35"},
     "San_Diego": {"state": "ca", "country": "us", "lon": "-117.157255","lat": "32.7153292"},
+    "Malta": {"state": "", "country": "mt", "lon": "14.375415999999973","lat": "35.937496"},
+    "Dubrovnik": {"state": "", "country": "hr", "lon": "18.09442379999996","lat": "42.65066059999999"},
+    "Florence": {"state": "", "country": "it", "lon": "11.25237919999995","lat": "43.7679178"},
+    "Barcelona": {"state": "", "country": "es", "lon": "2.154007","lat": "41.390205"},
     "Sydney": {"state": "nsw", "country": "au", "lon": "151.21","lat": "-33.87"}
 }

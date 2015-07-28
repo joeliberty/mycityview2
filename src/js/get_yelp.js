@@ -11,8 +11,10 @@ yelp_app.controller("YelpCtrl", ['$scope', '$rootScope', '$http','$q',
         // Yelp Sort mode: 0=Best matched (default), 1=Distance, 2=Highest Rated
         $scope.filters = [{type: "Best matched", value: 0},{type: "Closest", value: 1},{type: "Highest Rated",value: 2}];
         $scope.yelp.selectedItem = $scope.filters[1];
+        $scope.good_data = true;
 
     $scope.find_yelp = function(page, term) {
+        $scope.good_data = true;
         $('.newspanel').scrollTop(0,0);
         var form_data = $scope.yelp;
         $scope[term + '_spinner'] = true;
@@ -38,24 +40,36 @@ yelp_app.controller("YelpCtrl", ['$scope', '$rootScope', '$http','$q',
             }
         }).success(function(data, status, headers, config) {
             if(data) {
-                var data_array = [];
-                data_array.push(jQuery.parseJSON(data));
-                data_array = jQuery.parseJSON(data_array);
+                if (data.indexOf("error") != -1) {
+                    // $scope.bad_data = true;
+                    $scope.good_data = false;
+                } else {
+                    $scope.good_data = true;
+                    // $scope.bad_data = false;
+                    var data_array = [];
+                    data_array.push(jQuery.parseJSON(data));
+                    data_array = jQuery.parseJSON(data_array);
 
-                var term = String(config.config.term);
-                $scope[term + '_spinner'] = false;
-                var cur_page = String(config.config.page);
-                /* Add currentPage to data for pagination */
-                data_array.businesses.currentPage = cur_page;
+                    var term = String(config.config.term);
+                    $scope[term + '_spinner'] = false;
+                    var cur_page = String(config.config.page);
+                    /* Add currentPage to data for pagination */
+                    data_array.businesses.currentPage = cur_page;
 
-                /* Check if image is good */
-                // self.isImage(data_array, term);
-                $scope[term] = data_array.businesses;
-                $scope[term].count = (data_array.total <= 100) ? data_array.total : 100;
+                    // Data ok but no content
+                    if (data_array.businesses.length < 1) {
+                        $scope.good_data = false;
+                    }
 
-                var numofpages = (parseInt(data_array.total/10) <= 10) ? parseInt(data_array.total/10) : 10;
-                var pagerState = (numofpages <= 1) ? 'false' : 'true';
-                $scope['is_' + term] = pagerState; // For is_search pager
+                    /* Check if image is good */
+                    // self.isImage(data_array, term);
+                    $scope[term] = data_array.businesses;
+                    $scope[term].count = (data_array.total <= 100) ? data_array.total : 100;
+
+                    var numofpages = (parseInt(data_array.total/10) <= 10) ? parseInt(data_array.total/10) : 10;
+                    var pagerState = (numofpages <= 1) ? 'false' : 'true';
+                    $scope['is_' + term] = pagerState; // For is_search pager
+                }
             }
         }); 
     };
